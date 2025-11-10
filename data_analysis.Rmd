@@ -1,0 +1,95 @@
+---
+title: "data_analysis"
+author: "Pál Kolumbán"
+date: "2025-11-10"
+output: html_document
+---
+
+# Loading the data and relevant packages
+
+```{r Reading in the data and load necessary packages}
+library(tidyverse)
+library(ggplot2)
+erasmus_raw <- read.csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2022/2022-03-08/erasmus.csv', encoding = "latin1")
+
+```
+
+# Glimpse to variables
+
+```{r Explore the dataset variables}
+glimpse(erasmus_raw)
+summary(erasmus_raw$activity_mob)
+table(erasmus_raw$activity_mob)
+```
+
+# Check the mobility duration
+
+```{r Mobility duration plots}
+summary(erasmus_raw$mobility_duration)
+table(erasmus_raw$mobility_duration)
+
+ggplot(erasmus_raw, aes(x = mobility_duration, y = academic_year)) +
+  geom_point()
+```
+
+# Check the number of participants
+
+```{r Participant number}
+summary(erasmus_raw$participants)
+table(erasmus_raw$participants)
+sum(erasmus_raw$participants)
+
+ggplot(erasmus_raw, aes(x = participants, y = academic_year)) +
+  geom_point()
+```
+
+
+# Other plots to discover variable structure and distribution
+
+```{r Plots for participants and mobility duration}
+
+ggplot(erasmus_raw, aes(x = scale_x_log10(mobility_duration))) +
+  geom_density()
+
+
+```
+
+
+# Checking the destionation and source country
+
+```{r}
+erasmus_raw %>%
+  filter(erasmus_raw$mobility_duration <= 100)
+ggplot() +
+  geom_point(aes(x = mobility_duration, y = participant_nationality))
+```
+
+
+# Listing the recieving cities
+
+```{r}
+
+sort(table(erasmus_raw$receiving_city))
+
+# We can see, that many city names remained hidden after the reading process, so we have to make sure we deal with this somehow...
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
