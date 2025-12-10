@@ -21,6 +21,117 @@ glimpse(erasmus_raw)
 summary(erasmus_raw$activity_mob)
 table(erasmus_raw$activity_mob)
 ```
+# Checking the df charachteristics
+
+```{r}
+str(erasmus_raw)
+summary(erasmus_raw)
+colSums(is.na(erasmus_raw))
+```
+
+# Participant-s age cleaning
+```{r}
+# We can see above that the participant age is from -7148 to 1049, which is for most cases cannot be generalized to the population of the world or even European students, so we will adjust first this variable
+# Most of the Erasmus participant age fits into 13-30 age limit in my experience, so lets filter the age for those people first
+
+erasmus_raw <- erasmus_raw %>% 
+  mutate(participant_age = as.numeric(participant_age)) %>%
+  filter(participant_age >= 13, participant_age <= 30)
+
+summary(erasmus_raw$participant_age)
+
+#Now the mean age looks better too
+
+ggplot(erasmus_raw, aes(x = participant_age)) +
+  geom_histogram(binwidth = 1) +
+  labs(
+    title = "Distribution of Participant Age",
+    x = "Age",
+    y = "Count"
+  )
+```
+
+# Participant-s gender cleaning
+```{r}
+table(erasmus_raw$participant_gender, useNA = "ifany")
+```
+# Sending and receiving country
+
+```{r}
+table(erasmus_raw$sending_country_code, useNA = "ifany")
+```
+```{r}
+table(erasmus_raw$receiving_country_code, useNA = "ifany")
+```
+
+```{r}
+# Question to ask:
+# What are the most popular destination Countries?
+# From where people tend to visit in each country - maybe create groups like: Balkan, etc.
+```
+
+# Checking field of education
+
+```{r}
+table(erasmus_raw$field_of_education, useNA = "ifany")
+# This variable cannot be considered due to the reading in coding error process
+# If we make this read-in process from local file from the project folder it might disappear, otherwise we wont use this variable. Come back to this later on.
+```
+# Checking participant profile
+```{r}
+table(erasmus_raw$participant_profile, useNA = "ifany")
+# It seems that all of the learners are in age between 13-30 and by filering for age we excluded the leaders/teachers from the dataset.
+# To answer our questions about the students the deleted data may be not relevant, so lets continue this way
+```
+# Checking special needs, fewer opportunities and group leader variables as well
+
+```{r}
+table(erasmus_raw$special_needs, useNA = "ifany")
+table(erasmus_raw$fewer_opportunities, useNA = "ifany")
+table(erasmus_raw$group_leader, useNA = "ifany") # This variable is not relevant this way, as none of the students leads those projects
+
+```
+# Academic year
+
+```{r}
+table(erasmus_raw$academic_year, useNA = "ifany")
+
+```
+# Start and end months
+
+```{r}
+table(erasmus_raw$mobility_start_month, useNA = "ifany")
+table(erasmus_raw$mobility_end_month, useNA = "ifany")
+# Maybe it makes sense to split the data for seasons, to check its influence of choosing a destionation country
+```
+# Lets have the season variable 
+```{r}
+# Getting the 6.th and 7th digits of the cells in the mobility start month variable and saving it as integer to a different variable
+erasmus_raw$s_month <- substr(erasmus_raw$mobility_start_month, 6, 7)
+erasmus_raw$s_month <- as.integer(erasmus_raw$s_month)
+
+table(erasmus_raw$s_month, useNA = "ifany")
+```
+
+```{r}
+erasmus_raw$season <- with(erasmus_raw,
+  dplyr::case_when(
+    s_month %in% c(12, 1, 2) ~ "winter",
+    s_month %in% 3:5         ~ "spring",
+    s_month %in% 6:8         ~ "summer",
+    s_month %in% 9:11        ~ "autumn",
+    TRUE                     ~ NA_character_
+  )
+)
+# We created now the season variable which is the season of the start month
+```
+
+# Checking the season variable
+
+```{r}
+table(erasmus_raw$season, useNA = "ifany")
+```
+
 
 # Check the mobility duration
 
@@ -28,9 +139,17 @@ table(erasmus_raw$activity_mob)
 summary(erasmus_raw$mobility_duration)
 table(erasmus_raw$mobility_duration)
 
+# We can see that majority of the values are from 1 to 10 months
+# Lets check with a plot the academic year and duration together
 ggplot(erasmus_raw, aes(x = mobility_duration, y = academic_year)) +
   geom_point()
 ```
+```{r}
+# The mobility duration numbers are a little bit surprising for me.
+# I think that participating in a 20 year lasting erasmus (in case of 273 months) is unusual for most of the students, who generally can go maximum 4 semesters (2 years/24 months) in a row.
+```
+
+
 
 # Check the number of participants
 
