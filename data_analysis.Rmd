@@ -150,7 +150,6 @@ ggplot(erasmus_raw, aes(x = mobility_duration, y = academic_year)) +
 ```
 
 
-
 # Check the number of participants
 
 ```{r Participant number}
