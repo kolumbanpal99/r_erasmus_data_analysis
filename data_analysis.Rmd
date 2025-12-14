@@ -76,7 +76,7 @@ erasmus_raw %>%
     .groups = "drop"
   ) %>%
   ggplot(aes(x = total_participants)) +
-  geom_histogram(binwidth = 5) +
+  geom_histogram(binwidth = 5, fill = "steelblue") +
   labs(
     title = "Distribution of total number of participants per project",
     x = "Number of participants",
@@ -175,20 +175,20 @@ table(erasmus_raw$group_leader, useNA = "ifany") # This variable is not relevant
 erasmus_raw <- erasmus_raw %>%
   select(-field_of_education, participant_profile, -education_level, -group_leader)
 ```
-# Academic year
 
+# Academic year
 ```{r}
 table(erasmus_raw$academic_year, useNA = "ifany")
-
 ```
 # Start and end months
-
 ```{r}
 table(erasmus_raw$mobility_start_month, useNA = "ifany")
 table(erasmus_raw$mobility_end_month, useNA = "ifany")
 # Maybe it makes sense to split the data for seasons, to check its influence of choosing a destionation country
 ```
-# Lets have the season variable 
+
+# Creating the season variable 
+## Step 1
 ```{r}
 # Getting the 6.th and 7th digits of the cells in the mobility start month variable and saving it as integer to a different variable
 erasmus_raw$s_month <- substr(erasmus_raw$mobility_start_month, 6, 7)
@@ -197,6 +197,7 @@ erasmus_raw$s_month <- as.integer(erasmus_raw$s_month)
 table(erasmus_raw$s_month, useNA = "ifany")
 ```
 
+## Step 2
 ```{r}
 erasmus_raw$season <- with(erasmus_raw,
   dplyr::case_when(
@@ -211,7 +212,6 @@ erasmus_raw$season <- with(erasmus_raw,
 ```
 
 # Checking the season variable
-
 ```{r}
 table(erasmus_raw$season, useNA = "ifany")
 ```
@@ -234,7 +234,7 @@ ggplot(erasmus_raw, aes(x = mobility_duration, y = academic_year)) +
 # I think that participating in a 20 year lasting erasmus (in case of 273 months) is unusual for most of the students, who generally can go maximum 4 semesters (2 years/24 months) in a row.
 ```
 
-# filtering for reasonable amount of mobility duration
+# Adjustingt mobility duration
 
 ```{r}
 erasmus_raw <- erasmus_raw %>%
@@ -243,22 +243,12 @@ erasmus_raw <- erasmus_raw %>%
 
 ```{r}
 boxplot(erasmus_raw$mobility_duration)
+# We can see that the duration of mobility variable is right-skewed, having multiple short-term (ex. under 6 months), and less longer-term (between 6 and 20) visits
+# If we later include this in models, we have to adjust for this properly
 ```
 
 ```{r}
 ggplot(erasmus_raw, aes(x = mobility_duration, y = academic_year)) +
-  geom_point()
-```
-
-
-# Check the number of participants
-
-```{r Participant number}
-summary(erasmus_raw$participants)
-table(erasmus_raw$participants)
-sum(erasmus_raw$participants)
-
-ggplot(erasmus_raw, aes(x = participants, y = academic_year)) +
   geom_point()
 ```
 
@@ -268,12 +258,18 @@ ggplot(erasmus_raw, aes(x = participants, y = academic_year)) +
 # The Erasmus committee wants to find out what influences most a project popularity, what is indicated via the numbers of the participants within a poject 
 ```
 
-# First aggregate the data 
-```{r}
-# group by projects calculate important predictors for each project
+# First aggregate the data with potentially important factors
 
+```{r}
 project_level <- erasmus_raw %>%
-  group_by(project_reference) %>%
+  # --- STEP 1: Extract the Year ---
+  # The year is always the first four characters of the project_reference.
+  mutate(
+    project_year = stringr::str_sub(project_reference, start = 1, end = 4)
+  ) %>%
+  
+  # --- STEP 2: Summarize Data (Grouping by original project_reference and new project_year) ---
+  group_by(project_reference, project_year) %>%
   summarise(
     total_participants = sum(participants),
     avg_age = weighted.mean(participant_age, participants, na.rm = TRUE),
@@ -281,9 +277,68 @@ project_level <- erasmus_raw %>%
     prop_fewer_opp = sum(participants[fewer_opportunities=="Yes"], na.rm = TRUE) / sum(participants),
     prop_special = sum(participants[special_needs=="Yes"], na.rm = TRUE) / sum(participants),
     duration = first(mobility_duration),
-    season = first(season)
+    season = first(season),
+    .groups = 'drop' # Recommended to drop the grouping structure after summarizing
   )
 ```
+
+
+# 0. Simple analysis question
+# Is the project duration affected by the number of participants and average age
+```{r}
+model_0 <- lm(duration ~ total_participants + avg_age + prop_female, data = project_level)
+summary(model_0)
+```
+
+
+
+# Investigate gender differences in erasmus programs
+
+```{r}
+
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(project_level, aes(x = project_year, y = total_participants)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(title = "Project size distribution by year",
+       x = "Project year",
+       y = "Total number of participants")
+
+# We can see that in each year there is a huge variance in project sizes (which is shown by the number of participants)
+```
+# statistical test for the difference
+```{r}
+project_level$project_year_factor <- as.factor(project_level$project_year)
+
+# 2. Run the Kruskal-Wallis Test
+kruskal_result <- kruskal.test(total_participants ~ project_year_factor, data = project_level)
+
+print(kruskal_result)
+```
+
+# Transforming the participants number
+```{r}
+project_level <- project_level %>%
+  mutate(log_participants = log(total_participants + 1))
+
+ggplot(project_level, aes(x = project_year, y = log_participants)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(title = "Project size distribution by year",
+       x = "Project year",
+       y = "Log of participants")
+
+# 2. Re-plot the box plot of the new variable to check the distribution
+
+# 3. Now we can run ANOVA on the log-transformed number of participants
+aov_log <- aov(log_participants ~ project_year_factor, data = project_level)
+
+summary(aov_log)
+```
+
+
 
 # Build a model with the factors we want to include
 ```{r}
