@@ -28,7 +28,7 @@ str(erasmus_raw)
 summary(erasmus_raw)
 ```
 
-# Participant-s age cleaning
+# Checking and filtering the participants age variable
 ```{r}
 # We can see above that the participant age is from -7148 to 1049, which is for most cases cannot be generalized to the population of the world or even European students, so we will adjust first this variable
 # Most of the Erasmus participant age fits into 13-30 age limit in my experience, so lets filter the age for those people first
@@ -42,36 +42,111 @@ summary(erasmus_raw$participant_age)
 #Now the mean age looks better too
 
 ggplot(erasmus_raw, aes(x = participant_age)) +
-  geom_histogram(binwidth = 1) +
+  geom_histogram(binwidth = 1, fill = "steelblue",) +
   labs(
-    title = "Distribution of Participant Age",
+    title = "Distribution of participant age variable",
     x = "Age",
     y = "Count"
   )
+# This graph show simply the distribution of age variable and does not count for number of participants, we resolve this below
 ```
 
-# Participant-s gender cleaning
+```{r}
+ggplot(erasmus_raw, aes(x = participant_age, weight = participants)) +
+  geom_histogram(binwidth = 1, boundary = 0, closed = "left", fill = "steelblue", color = "black") +
+  labs(
+    title = "Distribution of participants by age",
+    x = "Age of participants",
+    y = "Number of Participants"
+  ) +
+  theme_minimal()
+```
+# Checking the total number of participants
+```{r}
+total_participants <-  sum(erasmus_raw$participants)
+```
+
+# Checking the number of participants per project
+
+```{r}
+erasmus_raw %>%
+  group_by(project_reference) %>%
+  summarise(
+    total_participants = sum(participants, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = total_participants)) +
+  geom_histogram(binwidth = 5) +
+  labs(
+    title = "Distribution of total number of participants per project",
+    x = "Number of participants",
+    y = "Number of projects"
+  ) +
+  theme_minimal()
+```
+
+
+# Checking the age distribution for each project
+
+```{r}
+project_age <- erasmus_raw %>%
+  group_by(project_reference) %>%
+  summarise(mean_age = mean(participant_age, na.rm = TRUE))
+```
+
+```{r}
+ggplot(project_age, aes(x = factor(project_reference), y = mean_age)) +
+  geom_col(fill = "steelblue") +
+  labs(x = "Project ID", y = "Mean Age", title = "Mean Age per Erasmus Project") +
+  theme_minimal()
+```
+
+# Checking participants gender variable
 ```{r}
 table(erasmus_raw$participant_gender, useNA = "ifany")
 ```
-# Sending and receiving country
-
+# Checking sending and receiving countries
 ```{r}
 table(erasmus_raw$sending_country_code, useNA = "ifany")
 table(erasmus_raw$receiving_country_code, useNA = "ifany")
 ```
-
+# Checking the country codes
+# Sending countries
 ```{r}
-# Question to ask:
-# What are the most popular destination Countries?
-# From where people tend to visit in each country - maybe create groups like: Balkan, etc.
+erasmus_raw %>%
+  select(project_reference, sending_country_code) %>%
+  distinct() %>%
+  count(sending_country_code) %>%
+  ggplot(aes(x = reorder(sending_country_code, n),y = n)) +
+  geom_col(fill = "steelblue") +
+  geom_text(aes(label = n), hjust = -0.1, size = 3) +
+  coord_flip() +
+  labs(
+    title = "Number of projects by sending country",
+    x = "Sending country",
+    y = "Number of projects"
+  ) +
+  theme_minimal()
 ```
 
-# Creating 
-
+# Receiving countries
 ```{r}
-
+erasmus_raw %>%
+  select(project_reference, receiving_country_code) %>%
+  distinct() %>%
+  count(receiving_country_code) %>%
+  ggplot(aes(x = reorder(receiving_country_code, n), y = n)) +
+  geom_col(fill = "steelblue") +
+  geom_text(aes(label = n), hjust = -0.1, size = 3) +
+  coord_flip() +
+  labs(
+    title = "Number of projects by receiving country",
+    x = "Receiving country",
+    y = "Number of projects"
+  ) +
+  theme_minimal()
 ```
+
 
 # Checking field of education
 
@@ -86,13 +161,19 @@ table(erasmus_raw$participant_profile, useNA = "ifany")
 # It seems that all of the learners are in age between 13-30 and by filering for age we excluded the leaders/teachers from the dataset.
 # To answer our questions about the students the deleted data may be not relevant, so lets continue this way
 ```
-# Checking special needs, fewer opportunities and group leader variables as well
 
+# Checking special needs, fewer opportunities and group leader variables as well
 ```{r}
 table(erasmus_raw$special_needs, useNA = "ifany")
 table(erasmus_raw$fewer_opportunities, useNA = "ifany")
 table(erasmus_raw$group_leader, useNA = "ifany") # This variable is not relevant this way, as none of the students leads those projects
 
+```
+
+# Dealing with unused data
+```{r}
+erasmus_raw <- erasmus_raw %>%
+  select(-field_of_education, participant_profile, -education_level, -group_leader)
 ```
 # Academic year
 
@@ -274,6 +355,12 @@ abline(h = 4/length(cooksd2), col="red", lty=2)
 
 ```
 
+
+```{r}
+# Question to ask:
+# What are the most popular destination Countries?
+# From where people tend to visit in each country - maybe create groups like: Balkan, etc.
+```
 
 
 
