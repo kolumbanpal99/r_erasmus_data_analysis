@@ -5,30 +5,29 @@ date: "2025-11-10"
 output: html_document
 ---
 
-# Loading the data and relevant packages
+# 1. Loading the data and relevant packages
 
 ```{r Reading in the data and load necessary packages}
 library(tidyverse)
 library(ggplot2)
 erasmus_raw <- read.csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2022/2022-03-08/erasmus.csv', encoding = "latin1")
-
 ```
 
-# Glimpse to variables
+## 1.1 Glimpse to variables
 
 ```{r Explore the dataset variables}
 glimpse(erasmus_raw)
 summary(erasmus_raw$activity_mob)
 table(erasmus_raw$activity_mob)
 ```
-# Checking the df charachteristics
-
+# 2. EDA
+##  2.1 Checking the df charachteristics
 ```{r}
 str(erasmus_raw)
 summary(erasmus_raw)
 ```
 
-# Checking and filtering the participants age variable
+## 2.2 Checking and filtering the participants age variable
 ```{r}
 # We can see above that the participant age is from -7148 to 1049, which is for most cases cannot be generalized to the population of the world or even European students, so we will adjust first this variable
 # Most of the Erasmus participant age fits into 13-30 age limit in my experience, so lets filter the age for those people first
@@ -42,7 +41,14 @@ summary(erasmus_raw$participant_age)
 #Now the mean age looks better too
 
 ggplot(erasmus_raw, aes(x = participant_age)) +
-  geom_histogram(binwidth = 1, fill = "steelblue",) +
+  geom_histogram(binwidth = 1, fill = "steelblue", color = "black") +
+  geom_text(
+    stat = "bin",
+    binwidth = 1,
+    aes(label = after_stat(count)),
+    vjust = -0.9, 
+    size = 3.5
+  ) +
   labs(
     title = "Distribution of participant age variable",
     x = "Age",
@@ -51,9 +57,17 @@ ggplot(erasmus_raw, aes(x = participant_age)) +
 # This graph show simply the distribution of age variable and does not count for number of participants, we resolve this below
 ```
 
+## 2.3 Participant age distribution
 ```{r}
 ggplot(erasmus_raw, aes(x = participant_age, weight = participants)) +
-  geom_histogram(binwidth = 1, boundary = 0, closed = "left", fill = "steelblue", color = "black") +
+  geom_histogram(binwidth = 1, closed = "right", fill = "steelblue", color = "black") +
+  geom_text(
+    stat = "bin",
+    binwidth = 1,
+    aes(label = after_stat(count)),
+    vjust = -0.9, 
+    size = 3.5
+  ) +
   labs(
     title = "Distribution of participants by age",
     x = "Age of participants",
@@ -61,13 +75,13 @@ ggplot(erasmus_raw, aes(x = participant_age, weight = participants)) +
   ) +
   theme_minimal()
 ```
-# Checking the total number of participants
+
+## 2.4 Checking the total number of participants
 ```{r}
 total_participants <-  sum(erasmus_raw$participants)
 ```
 
-# Checking the number of participants per project
-
+## 2.5 Checking the number of participants per project
 ```{r}
 erasmus_raw %>%
   group_by(project_reference) %>%
@@ -85,33 +99,51 @@ erasmus_raw %>%
   theme_minimal()
 ```
 
-
-# Checking the age distribution for each project
-
+## 2.6 Checking the genders distribution in projects
 ```{r}
-project_age <- erasmus_raw %>%
-  group_by(project_reference) %>%
-  summarise(mean_age = mean(participant_age, na.rm = TRUE))
-```
-
-```{r}
-ggplot(project_age, aes(x = factor(project_reference), y = mean_age)) +
-  geom_col(fill = "steelblue") +
-  labs(x = "Project ID", y = "Mean Age", title = "Mean Age per Erasmus Project") +
+# We filter first for the majority of the projects, with below 600 and above 25 participants. This might seem unreasoneable as a lots of projects include more participants, however in later model we will see that filtering for outliers is beneficial.
+# In case of plotting this serves good sized plots 
+erasmus_raw %>%
+  group_by(project_reference, participant_gender) %>%
+  summarise(total_participants = sum(participants, na.rm = TRUE), .groups = "drop") %>%
+  filter(total_participants > 25, total_participants < 600) %>%
+  ggplot(aes(x = total_participants, fill = participant_gender)) +
+  geom_histogram(binwidth = 5, position = "stack", color = "white") +
+  scale_fill_manual(values = c("Male" = "lightgreen", "Female" = "lightpink", "Undefined" = "grey70"), name = "Participant gender") +
+  labs(
+    title = "Distribution of total number of participants per project (between 25–600)",
+    x = "Number of participants",
+    y = "Number of projects") +
   theme_minimal()
 ```
 
-# Checking participants gender variable
+## 2.7 Checking the age distribution for each project
+```{r}
+erasmus_raw %>%
+  group_by(project_reference) %>%
+  summarise(mean_age = weighted.mean(participant_age, w = participants, na.rm = TRUE), .groups = "drop") %>%
+  ggplot(aes(x = factor(project_reference), y = mean_age)) +
+  geom_col(fill = "steelblue") +
+  labs(x = "Projects", y = "Weighted mean age",
+    title = "Weighted mean age per Erasmus project"
+  ) +
+  theme_minimal()
+```
+
+## 2.8 Checking participants gender variable
 ```{r}
 table(erasmus_raw$participant_gender, useNA = "ifany")
 ```
-# Checking sending and receiving countries
+
+## 2.9 Checking sending and receiving countries
 ```{r}
 table(erasmus_raw$sending_country_code, useNA = "ifany")
 table(erasmus_raw$receiving_country_code, useNA = "ifany")
 ```
-# Checking the country codes
-# Sending countries
+
+## 2.10 Checking the country codes
+
+### 2.10.1 Sending countries
 ```{r}
 erasmus_raw %>%
   select(project_reference, sending_country_code) %>%
@@ -129,7 +161,7 @@ erasmus_raw %>%
   theme_minimal()
 ```
 
-# Receiving countries
+### 2.10.2 Receiving countries
 ```{r}
 erasmus_raw %>%
   select(project_reference, receiving_country_code) %>%
@@ -147,48 +179,48 @@ erasmus_raw %>%
   theme_minimal()
 ```
 
-
-# Checking field of education
-
+## 2.11 Checking field of education
 ```{r}
 table(erasmus_raw$field_of_education, useNA = "ifany")
 # This variable cannot be considered due to the reading in coding error process
 # If we make this read-in process from local file from the project folder it might disappear, otherwise we wont use this variable. Come back to this later on.
 ```
-# Checking participant profile
+
+## 2.12 Checking participant profile
 ```{r}
 table(erasmus_raw$participant_profile, useNA = "ifany")
-# It seems that all of the learners are in age between 13-30 and by filering for age we excluded the leaders/teachers from the dataset.
+# It seems that all of the learners are in age between 13-30 and by filtering for age we excluded the leaders/teachers from the dataset.
 # To answer our questions about the students the deleted data may be not relevant, so lets continue this way
 ```
 
-# Checking special needs, fewer opportunities and group leader variables as well
+## 2.13 Checking special needs, fewer opportunities and group leader variables as well
 ```{r}
 table(erasmus_raw$special_needs, useNA = "ifany")
 table(erasmus_raw$fewer_opportunities, useNA = "ifany")
 table(erasmus_raw$group_leader, useNA = "ifany") # This variable is not relevant this way, as none of the students leads those projects
-
 ```
 
-# Dealing with unused data
+## 2.14 Dealing with unused data
 ```{r}
 erasmus_raw <- erasmus_raw %>%
   select(-field_of_education, participant_profile, -education_level, -group_leader)
 ```
 
-# Academic year
+## 2.15 Academic year
 ```{r}
 table(erasmus_raw$academic_year, useNA = "ifany")
 ```
-# Start and end months
+
+## 2.16 Start and end months
 ```{r}
 table(erasmus_raw$mobility_start_month, useNA = "ifany")
 table(erasmus_raw$mobility_end_month, useNA = "ifany")
-# Maybe it makes sense to split the data for seasons, to check its influence of choosing a destionation country
+# Maybe it makes sense to split the data for seasons, to check its influence of choosing a destination country
 ```
 
-# Creating the season variable 
-## Step 1
+# 3. Creating variables for potential analysis
+## 3.1 Creating the season variable 
+### 3.1.1 Step 1
 ```{r}
 # Getting the 6.th and 7th digits of the cells in the mobility start month variable and saving it as integer to a different variable
 erasmus_raw$s_month <- substr(erasmus_raw$mobility_start_month, 6, 7)
@@ -197,7 +229,7 @@ erasmus_raw$s_month <- as.integer(erasmus_raw$s_month)
 table(erasmus_raw$s_month, useNA = "ifany")
 ```
 
-## Step 2
+### 3.1.2 Step 2
 ```{r}
 erasmus_raw$season <- with(erasmus_raw,
   dplyr::case_when(
@@ -211,13 +243,13 @@ erasmus_raw$season <- with(erasmus_raw,
 # We created now the season variable which is the season of the start month
 ```
 
-# Checking the season variable
+### 3.1.3 Checking the season variable
 ```{r}
 table(erasmus_raw$season, useNA = "ifany")
 ```
 
-# Check the mobility duration
-
+## 3.2 Checking and adjusting the mobility duration
+### 3.2.1 Checking the variable
 ```{r Mobility duration plots}
 summary(erasmus_raw$mobility_duration)
 table(erasmus_raw$mobility_duration)
@@ -228,38 +260,51 @@ ggplot(erasmus_raw, aes(x = mobility_duration, y = academic_year)) +
   geom_point()
 ```
 
-
+### 3.2.2 Report the variable values
 ```{r}
 # The mobility duration numbers are a little bit surprising for me.
 # I think that participating in a 20 year lasting erasmus (in case of 273 months) is unusual for most of the students, who generally can go maximum 4 semesters (2 years/24 months) in a row.
 ```
 
-# Adjustingt mobility duration
-
+### 3.2.3 Adjustingt mobility duration
 ```{r}
-erasmus_raw <- erasmus_raw %>%
-  filter(mobility_duration <= 24)
+erasmus_summary <- erasmus_raw %>%
+  filter(mobility_duration <= 24) %>%
+  group_by(project_reference) %>%
+  summarize(median_duration = median(mobility_duration, na.rm = TRUE))
 ```
 
+### 3.2.4. Checking the variable distribution
 ```{r}
-boxplot(erasmus_raw$mobility_duration)
-# We can see that the duration of mobility variable is right-skewed, having multiple short-term (ex. under 6 months), and less longer-term (between 6 and 20) visits
-# If we later include this in models, we have to adjust for this properly
+boxplot(
+  erasmus_summary$median_duration,
+  main = "Distribution of median mobility duration per project",
+  ylab = "Median duration (months)",
+  names = c("Median Duration")
+)
+# We can see that the duration of mobility variable is right-skewed, having multiple short-term (ex. under 6 months), and less longer-term (between 8 and 20) visits
 ```
-
+### 3.2.5. Checking the values of mobility duration in different academic years
 ```{r}
+# In order to have an uderstanding if there is a significant other pattern throughout the years, we should be identify it briefly from a simple plot , where we visualizse the mobility durations for academic years
+
 ggplot(erasmus_raw, aes(x = mobility_duration, y = academic_year)) +
-  geom_point()
+  geom_point() +
+   labs(
+    title = "Mobility duration of Erasmus projects by academic year",
+    x = "Mobility duration (months)",
+    y = "Academic year"
+  )
 ```
 
-# 1. Analysis question
-
+# 4. Analysis 
 ```{r}
-# The Erasmus committee wants to find out what influences most a project popularity, what is indicated via the numbers of the participants within a poject 
+# We have a lots of variables and analysis pathways to follow, from all of these we will select some to build models.
+# Imagine the scenario, when the Erasmus committee wants to find out what influences most a project popularity.
+# In order to answer this question we can use the data we want to achieve a confident answer in marking the relevant factors.
 ```
 
-# First aggregate the data with potentially important factors
-
+## 4.1 Aggregate the data to project level, with potentially important factors
 ```{r}
 project_level <- erasmus_raw %>%
   mutate(
@@ -278,50 +323,53 @@ project_level <- erasmus_raw %>%
   )
 ```
 
-
-# 0. Simple analysis question
-# Is the project duration affected by the number of participants and average age
+## 4.2 Simple analysis question, first model
 ```{r}
-model_poisson <- glm(total_participants ~ avg_age + duration + prop_female + prop_fewer_opp, 
-                     data = project_level, 
-                     family = "poisson")
-
+# Is the project duration affected by the number of participants and average age, proportion of females and proportion of people with fewer opportunities.
+# We include several variables to predict for each project the number of the participants, as this can be a useful measure of popularity
+# As in the EDA we could see that the number of participants is highly right skewed, we can try to do first poisson regression, and test for its requirements.
+model_poisson <- glm(total_participants ~ avg_age + duration + prop_female + prop_fewer_opp, data = project_level, family = "poisson")
 summary(model_poisson, coeff = TRUE)
 ```
 
+### 4.2.3 Checking for dispersion
 ```{r}
 library(AER)
 
 # Use the fitted Poisson model
 AER::dispersiontest(model_poisson, alternative = "greater")
-# Better not to use Poisson
+# After testing for dispersion, we can claim that it is not the best idea to use Poisson regression in this case.
+# Our alternative is negative binomial regression
 ```
 
-# 0.1 Negative binomial regression
-# As an alternative we can use negavtive binomial regression
+## 4.3 Negative binomial regression
 ```{r}
+# As an alternative we can use negative binomial regression
+# First we use every variable which can make sense in the model and check the overall effect of these
 library(MASS)
-model_negbin <- glm.nb(total_participants ~ avg_age + prop_female + prop_fewer_opp + prop_special + duration, 
-                       data = project_level)
+model_negbin <- glm.nb(total_participants ~ avg_age + prop_female + prop_fewer_opp + prop_special + duration, data = project_level)
 summary(model_negbin)
-# few variables are not significant, we drop them and check the model again
+# A few variables are not significant, we drop them and check the model again below.
 ```
 
-# Selected model 1
-# 0.2 Negative binomial regression with less variable
+## 4.4 Negative binomial regression with less variable
 ```{r}
 library(MASS)
-model_negbin_2 <- glm.nb(total_participants ~ avg_age + prop_special + duration,
-                       data = project_level)
+model_negbin_2 <- glm.nb(total_participants ~ avg_age + prop_special + duration,data = project_level)
 summary(model_negbin_2)
-# better AIC, keep this model
+# In this model the previously significant predictors remained significant here.
+# Moreover, this model has better AIC, we can continue with interpretation of it by checking the likelihoods.
 ```
-# Visualize the model
+
+### 4.4.1 Visualize the model
 ```{r}
 topmodels::rootogram(model_negbin_2)
 ```
 
+### 4.4.2. Further visualizations for assumption check
 ```{r}
+# Checking further the predictions and potential factors why we have a not well predictive value as number of participants is growing
+# Maybe this can be used later for testing an alternative way, and dealing with outliers.
 library(DHARMa)
 res1 <- simulateResiduals(fittedModel = model_negbin_2, n = 1000)
 plot(res1)
@@ -331,54 +379,45 @@ testZeroInflation(res1)
 testOutliers(res1)
 ```
 
-
-
-# Check interaction too
-# Model 0.3.
+## 4.5 Interaction of age and duration of the program
 ```{r}
-model_negbin_3 <- glm.nb(total_participants ~ avg_age + duration + avg_age * duration, 
-                       data = project_level)
+# Before commiting to the ultimate models i wanted to check an interaction too
+model_negbin_3 <- glm.nb(total_participants ~ avg_age + duration + avg_age * duration, data = project_level)
 summary(model_negbin_3)
 ```
 
-# Selected model 2
-# Model 0.4 Season effect on a project size (popularity)
-
+## 4.6 Model to assess season effect on project size
 ```{r}
 # This is a simple model and it accounts for different season effect on project size
-model_negbin_4 <- glm.nb(
-  total_participants ~ factor(season),
-  data = project_level
-)
+# In the first model we didn't include this variable but it might have great potential to explain the project sizes
+model_negbin_4 <- glm.nb(total_participants ~ factor(season),data = project_level)
 summary(model_negbin_4)
-
-
 ```
-# Visualize the model
+
+### 4.6.1 Visualize the model fit
 ```{r}
 topmodels::rootogram(model_negbin_4)
 ```
 
+### 4.6.2. Assumption visualization
 ```{r}
-install.packages("DHARMa")
 library(DHARMa)
 res <- simulateResiduals(fittedModel = model_negbin_4, n = 1000)
 plot(res)
 
 testDispersion(res)
-utestZeroInflation(res)
+testZeroInflation(res)
 testOutliers(res)
 ```
 
-# Try to log transform the values and check it with ols regression
-
+## 5. SELECTED MODEL 1: Log-transformed outcome within a linear model (Reference)
 ```{r}
-model_log_ols <- lm(log(total_participants) ~ avg_age + prop_special + duration, 
-                    data = project_level)
-
+# To adjust higher outlier values we can log transform the outcome variable and use it in a simpler linear model.
+model_log_ols <- lm(log(total_participants) ~ avg_age + prop_special + duration, data = project_level)
 summary(model_log_ols)
 ```
 
+### 5.1 Checking model parameters using DHARMA
 ```{r}
 library(DHARMa)
 res <- simulateResiduals(fittedModel = model_log_ols, n = 1000)
@@ -389,6 +428,139 @@ testZeroInflation(res)
 testOutliers(res)
 ```
 
+### 5.2 Checking regular plots for the model
+```{r}
+plot(model_log_ols)
+```
+
+### 5.3 Checking model fit
+```{r}
+# visualize the model fit
+topmodels::rootogram(model_log_ols)
+# This model looks good, or at least way better than any before in this analysis.
+# By looking at it with the plot results together i still want to adjust the outliers (very high and very low levels of the participant number)
+```
+
+### 5.4 Interpreting the visuals
+```{r}
+# We can see that the models above are failing to predict values towards the lower and higher end of the scale.
+# In this case I think is reasonable to check the majority of the projects and limit our data range, lets try this below
+# In order to do this we should be able to say something about by how much we limit our results by eliminating outlier cases or setting a certain limit
+```
+
+## 6 OUTLIER Filtering for next models
+```{r}
+lower_bound <- quantile(project_level$total_participants, 0.025)
+upper_bound <- quantile(project_level$total_participants, 0.975)
+
+# 2. Create a new filtered dataset
+project_level_filtered <- project_level %>%
+  filter(total_participants >= lower_bound & total_participants <= upper_bound)
+
+# Check how many rows were removed
+print(paste("Original rows:", nrow(project_level)))
+print(paste("Filtered rows:", nrow(project_level_filtered)))
+
+# This way the project numbers from 1391 decreases to 1323
+# The difference is 68, which is 68/1391 x 100 = 4,88
+```
+
+### 6.1 Compare the filtered data with the original one (what we used so far)
+```{r}
+# Lets check the influenced number of participants, by checking participants numbers
+
+tot <- sum(project_level$total_participants)
+# This is 272 509 participants
+
+new <- sum(project_level_filtered$total_participants)
+# This is 234 407 participants
+
+dif <- abs(tot - new)
+
+los <- (dif/tot) * 100
+# this way we lost about 14 % of the participants who were in the 5% of the projects
+```
+
+## 7. Model Negative Binomial Regression 
+```{r}
+# We create this model by using the previously significant variables
+model_filtered <- glm.nb(total_participants ~ avg_age + prop_special + duration, data = project_level_filtered)
+summary(model_filtered)
+```
+
+### 7.1 Plotting the model
+```{r}
+plot(model_filtered)
+```
+
+### 7.2 Model fit plot
+```{r}
+topmodels::rootogram(model_filtered)
+```
+
+### 7.3 Interpretation
+```{r}
+# This still is not the best fit, lets check the log transformation again
+```
+
+## 8. SELECTED Simple linear model with log transformation
+```{r}
+log_2 <- lm(log(total_participants) ~ avg_age + prop_special + duration, data = project_level_filtered)
+summary(log_2)
+```
+
+### 8.1 Plotting the model
+```{r}
+plot(log_2)
+```
+
+### 8.2 Model fit plot
+```{r}
+topmodels::rootogram(log_2)
+```
+
+## 9. Log model with more relevant predictors
+```{r}
+# In some readers may appear the question that we should go back and test the other variables as well again, with the filtered dataset
+# We satisfy you in this chunk.
+# Checking the variables we discarded in the early phase
+log_3 <- lm(log(total_participants) ~ avg_age + prop_special + prop_female + prop_fewer_opp + duration, data = project_level_filtered)
+summary(log_3)
+# Their effect is still not significant, thus we stick to the model simpler called log_2
+```
+
+# 5. Final report of the results
+
+```{r}
+# The initial count model (Negative Binomial GLM) suffered from severe assumption violations due to a high density of small counts and influential outliers (projects with extremely high participation), as shown by the DHARMa diagnostics.
+# After running an ols model with log-transformed outcome we got better results. I select this model as a reference and compare the same structure after dealing with outlier exclusion
+# How this model looks like:
+```
+
+## 5.1 Reference model 
+```{r}
+# To easier interpretation and comprarison i paste here the model output again, remember this model uses "the full" data
+summary(model_log_ols)
+```
+
+## 5.2 Alternative model
+
+```{r}
+# In the alternative model i investigate the effect of outlier handling 
+summary(log_2)
+```
+
+## 5.3 General comparison of the models
+```{r}
+# Despite the fit of the model_log_ols model, we were thinking a lot about the potential cause of the extreme outliers and decided to filter the projects excluding the 95% range of the data.
+# This way we lost about 14 % of the participants who were in the 5% of the projects we excluded
+# Usage of exclusion can be reasoned by the model fit analysis, as it showed outliers in the 2 ends of the scales even after using log transformation which is a dedicated method to deal with right skewed data.
+
+# In the second model we investigated the effect of the average age, the proportion of people with special needs and the project duration, same as in the first model.
+# Compared to the first log model, we can see that the residual range and SE decreased (what was 0.8131 on 1387 df in the second model became 0.7339, on 1319 df), the effect of our variables decreased to some extent (ex. coeff of avg_age from -0.112 changed to -0.099, the proportion of people with special needs from -0.669 decreased to -0.603, and the effect of duration of the project decreased from -0.133 to -0.118), while maintaining almost the same amount of explained variance (adjusted R2 in the first model = 0.239, adjusted R2 in the second model = 0.231)
+
+
+```
 
 
 
