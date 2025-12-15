@@ -1,0 +1,2046 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={data\_analysis},
+  pdfauthor={Pál Kolumbán},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{data\_analysis}
+\author{Pál Kolumbán}
+\date{2025-11-10}
+
+\begin{document}
+\maketitle
+
+\section{1. Loading the data and relevant
+packages}\label{loading-the-data-and-relevant-packages}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: a(z) 'ggplot2' csomag az R 4.4.3 verziójával lett fordítva
+\end{verbatim}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.1.4     v readr     2.1.5
+## v forcats   1.0.0     v stringr   1.5.1
+## v ggplot2   4.0.1     v tibble    3.2.1
+## v lubridate 1.9.3     v tidyr     1.3.1
+## v purrr     1.0.2     
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\NormalTok{erasmus\_raw }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2022/2022{-}03{-}08/erasmus.csv\textquotesingle{}}\NormalTok{, }\AttributeTok{encoding =} \StringTok{"latin1"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{1.1 Glimpse to variables}\label{glimpse-to-variables}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{glimpse}\NormalTok{(erasmus\_raw)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 164,635
+## Columns: 24
+## $ project_reference                   <chr> "2014-1-AT02-KA347-000139", "2014-~
+## $ academic_year                       <chr> "2014-2015", "2014-2015", "2014-20~
+## $ mobility_start_month                <chr> "2014-11", "2014-11", "2014-11", "~
+## $ mobility_end_month                  <chr> "2014-11", "2014-11", "2014-11", "~
+## $ mobility_duration                   <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ activity_mob                        <chr> "National youth meetings", "Nation~
+## $ field_of_education                  <chr> "? Unknown ?", "? Unknown ?", "? U~
+## $ participant_nationality             <chr> "AT", "AT", "AT", "AT", "AT", "AT"~
+## $ education_level                     <chr> "??? - ? Unknown ?", "??? - ? Unkn~
+## $ participant_gender                  <chr> "Female", "Female", "Female", "Mal~
+## $ participant_profile                 <chr> "Learner", "Learner", "Learner", "~
+## $ special_needs                       <chr> "No", "No", "No", "No", "No", "No"~
+## $ fewer_opportunities                 <chr> "Yes", "Yes", "Yes", "Yes", "Yes",~
+## $ group_leader                        <chr> "No", "No", "No", "No", "No", "No"~
+## $ participant_age                     <int> 13, 14, 15, 14, 15, 15, 16, 17, 18~
+## $ sending_country_code                <chr> "AT", "AT", "AT", "AT", "AT", "AT"~
+## $ sending_city                        <chr> "Dornbirn", "Dornbirn", "Dornbirn"~
+## $ sending_organization                <chr> "bOJA - Bundesweites Netzwerk Offe~
+## $ sending_organisation_erasmus_code   <chr> "-", "-", "-", "-", "-", "-", "-",~
+## $ receiving_country_code              <chr> "AT", "AT", "AT", "AT", "AT", "AT"~
+## $ receiving_city                      <chr> "Dornbirn", "Dornbirn", "Dornbirn"~
+## $ receiving_organization              <chr> "bOJA - Bundesweites Netzwerk Offe~
+## $ receiving_organisation_erasmus_code <chr> "-", "-", "-", "-", "-", "-", "-",~
+## $ participants                        <int> 2, 3, 3, 4, 2, 2, 1, 3, 1, 2, 1, 2~
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{activity\_mob)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Length     Class      Mode 
+##    164635 character character
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{activity\_mob)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##               National youth meetings          Transnational youth meetings 
+##                                139800                                 24834 
+## Youth Exchanges - Programme Countries 
+##                                     1
+\end{verbatim}
+
+\section{2. EDA}\label{eda}
+
+\subsection{2.1 Checking the df
+charachteristics}\label{checking-the-df-charachteristics}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(erasmus\_raw)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    164635 obs. of  24 variables:
+##  $ project_reference                  : chr  "2014-1-AT02-KA347-000139" "2014-1-AT02-KA347-000139" "2014-1-AT02-KA347-000139" "2014-1-AT02-KA347-000139" ...
+##  $ academic_year                      : chr  "2014-2015" "2014-2015" "2014-2015" "2014-2015" ...
+##  $ mobility_start_month               : chr  "2014-11" "2014-11" "2014-11" "2014-11" ...
+##  $ mobility_end_month                 : chr  "2014-11" "2014-11" "2014-11" "2014-11" ...
+##  $ mobility_duration                  : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ activity_mob                       : chr  "National youth meetings" "National youth meetings" "National youth meetings" "National youth meetings" ...
+##  $ field_of_education                 : chr  "? Unknown ?" "? Unknown ?" "? Unknown ?" "? Unknown ?" ...
+##  $ participant_nationality            : chr  "AT" "AT" "AT" "AT" ...
+##  $ education_level                    : chr  "??? - ? Unknown ?" "??? - ? Unknown ?" "??? - ? Unknown ?" "??? - ? Unknown ?" ...
+##  $ participant_gender                 : chr  "Female" "Female" "Female" "Male" ...
+##  $ participant_profile                : chr  "Learner" "Learner" "Learner" "Learner" ...
+##  $ special_needs                      : chr  "No" "No" "No" "No" ...
+##  $ fewer_opportunities                : chr  "Yes" "Yes" "Yes" "Yes" ...
+##  $ group_leader                       : chr  "No" "No" "No" "No" ...
+##  $ participant_age                    : int  13 14 15 14 15 15 16 17 18 19 ...
+##  $ sending_country_code               : chr  "AT" "AT" "AT" "AT" ...
+##  $ sending_city                       : chr  "Dornbirn" "Dornbirn" "Dornbirn" "Dornbirn" ...
+##  $ sending_organization               : chr  "bOJA - Bundesweites Netzwerk Offene Jugendarbeit" "bOJA - Bundesweites Netzwerk Offene Jugendarbeit" "bOJA - Bundesweites Netzwerk Offene Jugendarbeit" "bOJA - Bundesweites Netzwerk Offene Jugendarbeit" ...
+##  $ sending_organisation_erasmus_code  : chr  "-" "-" "-" "-" ...
+##  $ receiving_country_code             : chr  "AT" "AT" "AT" "AT" ...
+##  $ receiving_city                     : chr  "Dornbirn" "Dornbirn" "Dornbirn" "Dornbirn" ...
+##  $ receiving_organization             : chr  "bOJA - Bundesweites Netzwerk Offene Jugendarbeit" "bOJA - Bundesweites Netzwerk Offene Jugendarbeit" "bOJA - Bundesweites Netzwerk Offene Jugendarbeit" "bOJA - Bundesweites Netzwerk Offene Jugendarbeit" ...
+##  $ receiving_organisation_erasmus_code: chr  "-" "-" "-" "-" ...
+##  $ participants                       : int  2 3 3 4 2 2 1 3 1 2 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(erasmus\_raw)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  project_reference  academic_year      mobility_start_month mobility_end_month
+##  Length:164635      Length:164635      Length:164635        Length:164635     
+##  Class :character   Class :character   Class :character     Class :character  
+##  Mode  :character   Mode  :character   Mode  :character     Mode  :character  
+##                                                                               
+##                                                                               
+##                                                                               
+##  mobility_duration activity_mob       field_of_education
+##  Min.   :  1.000   Length:164635      Length:164635     
+##  1st Qu.:  1.000   Class :character   Class :character  
+##  Median :  1.000   Mode  :character   Mode  :character  
+##  Mean   :  2.351                                        
+##  3rd Qu.:  3.000                                        
+##  Max.   :273.000                                        
+##  participant_nationality education_level    participant_gender
+##  Length:164635           Length:164635      Length:164635     
+##  Class :character        Class :character   Class :character  
+##  Mode  :character        Mode  :character   Mode  :character  
+##                                                               
+##                                                               
+##                                                               
+##  participant_profile special_needs      fewer_opportunities group_leader      
+##  Length:164635       Length:164635      Length:164635       Length:164635     
+##  Class :character    Class :character   Class :character    Class :character  
+##  Mode  :character    Mode  :character   Mode  :character    Mode  :character  
+##                                                                               
+##                                                                               
+##                                                                               
+##  participant_age    sending_country_code sending_city      
+##  Min.   :-7184.00   Length:164635        Length:164635     
+##  1st Qu.:   17.00   Class :character     Class :character  
+##  Median :   21.00   Mode  :character     Mode  :character  
+##  Mean   :   24.54                                          
+##  3rd Qu.:   28.00                                          
+##  Max.   : 1049.00                                          
+##  sending_organization sending_organisation_erasmus_code receiving_country_code
+##  Length:164635        Length:164635                     Length:164635         
+##  Class :character     Class :character                  Class :character      
+##  Mode  :character     Mode  :character                  Mode  :character      
+##                                                                               
+##                                                                               
+##                                                                               
+##  receiving_city     receiving_organization receiving_organisation_erasmus_code
+##  Length:164635      Length:164635          Length:164635                      
+##  Class :character   Class :character       Class :character                   
+##  Mode  :character   Mode  :character       Mode  :character                   
+##                                                                               
+##                                                                               
+##                                                                               
+##   participants    
+##  Min.   :  1.000  
+##  1st Qu.:  1.000  
+##  Median :  1.000  
+##  Mean   :  1.881  
+##  3rd Qu.:  2.000  
+##  Max.   :279.000
+\end{verbatim}
+
+\subsection{2.2 Checking and filtering the participants age
+variable}\label{checking-and-filtering-the-participants-age-variable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We can see above that the participant age is from {-}7148 to 1049, which is for most cases cannot be generalized to the population of the world or even European students, so we will adjust first this variable}
+\CommentTok{\# Most of the Erasmus participant age fits into 13{-}30 age limit in my experience, so lets filter the age for those people first}
+
+\NormalTok{erasmus\_raw }\OtherTok{\textless{}{-}}\NormalTok{ erasmus\_raw }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{participant\_age =} \FunctionTok{as.numeric}\NormalTok{(participant\_age)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(participant\_age }\SpecialCharTok{\textgreater{}=} \DecValTok{13}\NormalTok{, participant\_age }\SpecialCharTok{\textless{}=} \DecValTok{30}\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{participant\_age)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   13.00   17.00   19.00   20.35   24.00   30.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Now the mean age looks better too}
+
+\FunctionTok{ggplot}\NormalTok{(erasmus\_raw, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ participant\_age)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{1}\NormalTok{, }\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}
+    \AttributeTok{stat =} \StringTok{"bin"}\NormalTok{,}
+    \AttributeTok{binwidth =} \DecValTok{1}\NormalTok{,}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \FunctionTok{after\_stat}\NormalTok{(count)),}
+    \AttributeTok{vjust =} \SpecialCharTok{{-}}\FloatTok{0.9}\NormalTok{, }
+    \AttributeTok{size =} \FloatTok{3.5}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Distribution of participant age variable"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Age"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Count"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-2-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# This graph show simply the distribution of age variable and does not count for number of participants, we resolve this below}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.3 Participant age
+distribution}\label{participant-age-distribution}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(erasmus\_raw, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ participant\_age, }\AttributeTok{weight =}\NormalTok{ participants)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{1}\NormalTok{, }\AttributeTok{closed =} \StringTok{"right"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}
+    \AttributeTok{stat =} \StringTok{"bin"}\NormalTok{,}
+    \AttributeTok{binwidth =} \DecValTok{1}\NormalTok{,}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \FunctionTok{after\_stat}\NormalTok{(count)),}
+    \AttributeTok{vjust =} \SpecialCharTok{{-}}\FloatTok{0.9}\NormalTok{, }
+    \AttributeTok{size =} \FloatTok{3.5}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Distribution of participants by age"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Age of participants"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Number of Participants"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-3-1.pdf}}
+
+\subsection{2.4 Checking the total number of
+participants}\label{checking-the-total-number-of-participants}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{total\_participants }\OtherTok{\textless{}{-}}  \FunctionTok{sum}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{participants)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.5 Checking the number of participants per
+project}\label{checking-the-number-of-participants-per-project}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{erasmus\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(project\_reference) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{total\_participants =} \FunctionTok{sum}\NormalTok{(participants, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+    \AttributeTok{.groups =} \StringTok{"drop"}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ total\_participants)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{5}\NormalTok{, }\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Distribution of total number of participants per project"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Number of participants"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Number of projects"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-5-1.pdf}}
+
+\subsection{2.6 Checking the genders distribution in
+projects}\label{checking-the-genders-distribution-in-projects}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We filter first for the majority of the projects, with below 600 and above 25 participants. This might seem unreasoneable as a lots of projects include more participants, however in later model we will see that filtering for outliers is beneficial.}
+\CommentTok{\# In case of plotting this serves good sized plots }
+\NormalTok{erasmus\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(project\_reference, participant\_gender) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{total\_participants =} \FunctionTok{sum}\NormalTok{(participants, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(total\_participants }\SpecialCharTok{\textgreater{}} \DecValTok{25}\NormalTok{, total\_participants }\SpecialCharTok{\textless{}} \DecValTok{600}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ total\_participants, }\AttributeTok{fill =}\NormalTok{ participant\_gender)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{5}\NormalTok{, }\AttributeTok{position =} \StringTok{"stack"}\NormalTok{, }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Male"} \OtherTok{=} \StringTok{"lightgreen"}\NormalTok{, }\StringTok{"Female"} \OtherTok{=} \StringTok{"lightpink"}\NormalTok{, }\StringTok{"Undefined"} \OtherTok{=} \StringTok{"grey70"}\NormalTok{), }\AttributeTok{name =} \StringTok{"Participant gender"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Distribution of total number of participants per project (between 25–600)"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Number of participants"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Number of projects"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-6-1.pdf}}
+
+\subsection{2.7 Checking the age distribution for each
+project}\label{checking-the-age-distribution-for-each-project}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{erasmus\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(project\_reference) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{mean\_age =} \FunctionTok{weighted.mean}\NormalTok{(participant\_age, }\AttributeTok{w =}\NormalTok{ participants, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(project\_reference), }\AttributeTok{y =}\NormalTok{ mean\_age)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Projects"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Weighted mean age"}\NormalTok{,}
+    \AttributeTok{title =} \StringTok{"Weighted mean age per Erasmus project"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-7-1.pdf}}
+
+\subsection{2.8 Checking participants gender
+variable}\label{checking-participants-gender-variable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{participant\_gender, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    Female      Male Undefined 
+##     71572     61941       505
+\end{verbatim}
+
+\subsection{2.9 Checking sending and receiving
+countries}\label{checking-sending-and-receiving-countries}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{sending\_country\_code, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    AL    AM    AT    AZ    BA    BE    BG    BY    CY    CZ    DE    DK    DZ 
+##   128   117  2783    53    77  2395  3609    67  1695  5291 14275   870     4 
+##    EE    EG    EL    ES    FI    FR    GE    HR    HU    IE    IL    IS    IT 
+##  3008    11  1617  8456  1662  8861   144  3147  5693  2180    11   590  4916 
+##    JO    LB    LI    LT    LU    LV    MA    MD    ME    MK    MT    NL    NO 
+##    49    23   118  4240  1095  3553    15    94    19  1379  1602  1570  1172 
+##    PL    PS    PT    RO    RS    RU    SE    SI    SK    TG    TN    TR    UA 
+## 12175     4  3547  5831   264    69  1177  3091  4380     1    41  6502   223 
+##    UK    XK 
+## 10071    53
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{receiving\_country\_code, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    AT    BE    BG    CY    CZ    DE    DK    EE    EL    ES    FI    FR    HR 
+##  2738  3071  3348  1794  5333 14135   908  3195  1658  8767  1520 10363  3229 
+##    HU    IE    IS    IT    LI    LT    LU    LV    MK    MT    NL    NO    PL 
+##  5418  2175   572  4862   114  4273  1462  3403  1281  1690  1783  1331 11832 
+##    PT    RO    RS    SE    SI    SK    TR    UK 
+##  3470  5605     1  1018  3176  4132  6430  9931
+\end{verbatim}
+
+\subsection{2.10 Checking the country
+codes}\label{checking-the-country-codes}
+
+\subsubsection{2.10.1 Sending countries}\label{sending-countries}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{erasmus\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(project\_reference, sending\_country\_code) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{distinct}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(sending\_country\_code) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(sending\_country\_code, n),}\AttributeTok{y =}\NormalTok{ n)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =}\NormalTok{ n), }\AttributeTok{hjust =} \SpecialCharTok{{-}}\FloatTok{0.1}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Number of projects by sending country"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Sending country"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Number of projects"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-10-1.pdf}}
+
+\subsubsection{2.10.2 Receiving countries}\label{receiving-countries}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{erasmus\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(project\_reference, receiving\_country\_code) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{distinct}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(receiving\_country\_code) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(receiving\_country\_code, n), }\AttributeTok{y =}\NormalTok{ n)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =}\NormalTok{ n), }\AttributeTok{hjust =} \SpecialCharTok{{-}}\FloatTok{0.1}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Number of projects by receiving country"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Receiving country"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Number of projects"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-11-1.pdf}}
+
+\subsection{2.11 Checking field of
+education}\label{checking-field-of-education}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{field\_of\_education, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ? Unknown ? 
+##      134018
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# This variable cannot be considered due to the reading in coding error process}
+\CommentTok{\# If we make this read{-}in process from local file from the project folder it might disappear, otherwise we wont use this variable. Come back to this later on.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.12 Checking participant
+profile}\label{checking-participant-profile}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{participant\_profile, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Learner 
+##  134018
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# It seems that all of the learners are in age between 13{-}30 and by filtering for age we excluded the leaders/teachers from the dataset.}
+\CommentTok{\# To answer our questions about the students the deleted data may be not relevant, so lets continue this way}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.13 Checking special needs, fewer opportunities and group
+leader variables as
+well}\label{checking-special-needs-fewer-opportunities-and-group-leader-variables-as-well}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{special\_needs, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     No    Yes 
+## 131633   2385
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{fewer\_opportunities, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     No    Yes 
+## 103933  30085
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{group\_leader, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{) }\CommentTok{\# This variable is not relevant this way, as none of the students leads those projects}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     No 
+## 134018
+\end{verbatim}
+
+\subsection{2.14 Dealing with unused
+data}\label{dealing-with-unused-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{erasmus\_raw }\OtherTok{\textless{}{-}}\NormalTok{ erasmus\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{field\_of\_education, participant\_profile, }\SpecialCharTok{{-}}\NormalTok{education\_level, }\SpecialCharTok{{-}}\NormalTok{group\_leader)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.15 Academic year}\label{academic-year}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{academic\_year, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 2014-2015 2015-2016 2016-2017 2017-2018 2018-2019 2019-2020 
+##      4132     21851     27090     27079     27005     26861
+\end{verbatim}
+
+\subsection{2.16 Start and end months}\label{start-and-end-months}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{mobility\_start\_month, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 2014-07 2014-08 2014-09 2014-10 2014-11 2014-12 2015-01 2015-02 2015-03 2015-04 
+##      35     256     605     957    1205    1074     825    1367    2416    1923 
+## 2015-05 2015-06 2015-07 2015-08 2015-09 2015-10 2015-11 2015-12 2016-01 2016-02 
+##    2682    1448    1691    1408    1553    2564    2819    1155    1215    2088 
+## 2016-03 2016-04 2016-05 2016-06 2016-07 2016-08 2016-09 2016-10 2016-11 2016-12 
+##    2567    3019    2584    2157    1607    1148    1784    3515    3339    2067 
+## 2017-01 2017-02 2017-03 2017-04 2017-05 2017-06 2017-07 2017-08 2017-09 2017-10 
+##    1488    2135    2578    3042    3376    2491    1330    1026    2168    2981 
+## 2017-11 2017-12 2018-01 2018-02 2018-03 2018-04 2018-05 2018-06 2018-07 2018-08 
+##    3084    1380    1717    2378    1992    2798    2780    2237    1230    1212 
+## 2018-09 2018-10 2018-11 2018-12 2019-01 2019-02 2019-03 2019-04 2019-05 2019-06 
+##    2763    3204    2960    1734    2008    2437    2883    2484    2903    1968 
+## 2019-07 2019-08 2019-09 2019-10 2019-11 2019-12 
+##    1172     743    2938    3061    3148    1116
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{mobility\_end\_month, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 2014-07 2014-08 2014-09 2014-10 2014-11 2014-12 2015-01 2015-02 2015-03 2015-04 
+##      35     240     578     830    1306    1143     754    1312    2428    2012 
+## 2015-05 2015-06 2015-07 2015-08 2015-09 2015-10 2015-11 2015-12 2016-01 2016-02 
+##    2572    1516    1630    1461    1525    2379    3049    1190    1206    2094 
+## 2016-03 2016-04 2016-05 2016-06 2016-07 2016-08 2016-09 2016-10 2016-11 2016-12 
+##    2509    3066    2601    1801    1931    1038    1814    3596    3334    2123 
+## 2017-01 2017-02 2017-03 2017-04 2017-05 2017-06 2017-07 2017-08 2017-09 2017-10 
+##    1467    2068    2630    3061    3385    2447    1359    1025    2144    2905 
+## 2017-11 2017-12 2018-01 2018-02 2018-03 2018-04 2018-05 2018-06 2018-07 2018-08 
+##    3049    1537    1688    2291    2038    2856    2775    2175    1284     962 
+## 2018-09 2018-10 2018-11 2018-12 2019-01 2019-02 2019-03 2019-04 2019-05 2019-06 
+##    2946    3192    2932    1868    1848    2561    2803    2590    2820    2056 
+## 2019-07 2019-08 2019-09 2019-10 2019-11 2019-12 2020-01 2020-02 
+##     936     913    2964    2866    3184    1291      28       1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Maybe it makes sense to split the data for seasons, to check its influence of choosing a destination country}
+\end{Highlighting}
+\end{Shaded}
+
+\section{3. Creating variables for potential
+analysis}\label{creating-variables-for-potential-analysis}
+
+\subsection{3.1 Creating the season
+variable}\label{creating-the-season-variable}
+
+\subsubsection{3.1.1 Step 1}\label{step-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Getting the 6.th and 7th digits of the cells in the mobility start month variable and saving it as integer to a different variable}
+\NormalTok{erasmus\_raw}\SpecialCharTok{$}\NormalTok{s\_month }\OtherTok{\textless{}{-}} \FunctionTok{substr}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{mobility\_start\_month, }\DecValTok{6}\NormalTok{, }\DecValTok{7}\NormalTok{)}
+\NormalTok{erasmus\_raw}\SpecialCharTok{$}\NormalTok{s\_month }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{s\_month)}
+
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{s\_month, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     1     2     3     4     5     6     7     8     9    10    11    12 
+##  7253 10405 12436 13266 14325 10301  7065  5793 11811 16282 16555  8526
+\end{verbatim}
+
+\subsubsection{3.1.2 Step 2}\label{step-2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{erasmus\_raw}\SpecialCharTok{$}\NormalTok{season }\OtherTok{\textless{}{-}} \FunctionTok{with}\NormalTok{(erasmus\_raw,}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    s\_month }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{) }\SpecialCharTok{\textasciitilde{}} \StringTok{"winter"}\NormalTok{,}
+\NormalTok{    s\_month }\SpecialCharTok{\%in\%} \DecValTok{3}\SpecialCharTok{:}\DecValTok{5}         \SpecialCharTok{\textasciitilde{}} \StringTok{"spring"}\NormalTok{,}
+\NormalTok{    s\_month }\SpecialCharTok{\%in\%} \DecValTok{6}\SpecialCharTok{:}\DecValTok{8}         \SpecialCharTok{\textasciitilde{}} \StringTok{"summer"}\NormalTok{,}
+\NormalTok{    s\_month }\SpecialCharTok{\%in\%} \DecValTok{9}\SpecialCharTok{:}\DecValTok{11}        \SpecialCharTok{\textasciitilde{}} \StringTok{"autumn"}\NormalTok{,}
+    \ConstantTok{TRUE}                     \SpecialCharTok{\textasciitilde{}} \ConstantTok{NA\_character\_}
+\NormalTok{  )}
+\NormalTok{)}
+\CommentTok{\# We created now the season variable which is the season of the start month}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{3.1.3 Checking the season
+variable}\label{checking-the-season-variable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{season, }\AttributeTok{useNA =} \StringTok{"ifany"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## autumn spring summer winter 
+##  44648  40027  23159  26184
+\end{verbatim}
+
+\subsection{3.2 Checking and adjusting the mobility
+duration}\label{checking-and-adjusting-the-mobility-duration}
+
+\subsubsection{3.2.1 Checking the variable}\label{checking-the-variable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{mobility\_duration)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.000   1.000   1.000   2.435   3.000 273.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(erasmus\_raw}\SpecialCharTok{$}\NormalTok{mobility\_duration)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##     1     2     3     4     5     6     7     8     9    10    11    12    13 
+## 68382 17031 21544  9273  7284  3896  3560  1663   397   541    54    34    61 
+##    14    15    16    18    22    26    28    29    30    31    32    33    34 
+##    17   115    14     7    18     4     5     1     2     1     2     1     3 
+##    35    36    37    39    40    42    47    49    51    62    83    92    93 
+##    14     2     7     2     2     2     2     5    21     2     1     4     5 
+##   106   115   177   212   273 
+##    15     1     1    21     1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We can see that majority of the values are from 1 to 10 months}
+\CommentTok{\# Lets check with a plot the academic year and duration together}
+\FunctionTok{ggplot}\NormalTok{(erasmus\_raw, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mobility\_duration, }\AttributeTok{y =}\NormalTok{ academic\_year)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/Mobility duration plots-1.pdf}}
+
+\subsubsection{3.2.2 Report the variable
+values}\label{report-the-variable-values}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The mobility duration numbers are a little bit surprising for me.}
+\CommentTok{\# I think that participating in a 20 year lasting erasmus (in case of 273 months) is unusual for most of the students, who generally can go maximum 4 semesters (2 years/24 months) in a row.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{3.2.3 Adjustingt mobility
+duration}\label{adjustingt-mobility-duration}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{erasmus\_raw }\OtherTok{\textless{}{-}}\NormalTok{ erasmus\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(mobility\_duration }\SpecialCharTok{\textless{}=} \DecValTok{24}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{3.2.4. Checking the variable
+distribution}\label{checking-the-variable-distribution}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boxplot}\NormalTok{(}
+\NormalTok{  erasmus\_raw}\SpecialCharTok{$}\NormalTok{mobility\_duration,}
+  \AttributeTok{main =} \StringTok{"Distribution of mobility duration per project"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Median duration (months)"}\NormalTok{,}
+  \AttributeTok{names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Median Duration"}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-23-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We can see that the duration of mobility variable is right{-}skewed, having multiple short{-}term (ex. under 6 months), and less longer{-}term (between 8 and 20) visits}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{3.2.5. Checking the values of mobility duration in
+different academic
+years}\label{checking-the-values-of-mobility-duration-in-different-academic-years}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In order to have an uderstanding if there is a significant other pattern throughout the years, we should be identify it briefly from a simple plot , where we visualizse the mobility durations for academic years}
+
+\FunctionTok{ggplot}\NormalTok{(erasmus\_raw, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mobility\_duration, }\AttributeTok{y =}\NormalTok{ academic\_year)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+   \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Mobility duration of Erasmus projects by academic year"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Mobility duration (months)"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Academic year"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-24-1.pdf}}
+
+\section{4. Analysis}\label{analysis}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We have a lots of variables and analysis pathways to follow, from all of these we will select some to build models.}
+\CommentTok{\# Imagine the scenario, when the Erasmus committee wants to find out what influences most a project popularity.}
+\CommentTok{\# In order to answer this question we can use the data we want to achieve a confident answer in marking the relevant factors.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{4.1 Aggregate the data to project level, with potentially
+important
+factors}\label{aggregate-the-data-to-project-level-with-potentially-important-factors}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{project\_level }\OtherTok{\textless{}{-}}\NormalTok{ erasmus\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{project\_year =}\NormalTok{ stringr}\SpecialCharTok{::}\FunctionTok{str\_sub}\NormalTok{(project\_reference, }\AttributeTok{start =} \DecValTok{1}\NormalTok{, }\AttributeTok{end =} \DecValTok{4}\NormalTok{) }\CommentTok{\# first 4 char = year}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(project\_reference, project\_year) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{total\_participants =} \FunctionTok{sum}\NormalTok{(participants),}
+    \AttributeTok{avg\_age =} \FunctionTok{weighted.mean}\NormalTok{(participant\_age, participants, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+    \AttributeTok{prop\_female =} \FunctionTok{sum}\NormalTok{(participants[participant\_gender}\SpecialCharTok{==}\StringTok{"Female"}\NormalTok{], }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(participants),}
+    \AttributeTok{prop\_fewer\_opp =} \FunctionTok{sum}\NormalTok{(participants[fewer\_opportunities}\SpecialCharTok{==}\StringTok{"Yes"}\NormalTok{], }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(participants),}
+    \AttributeTok{prop\_special =} \FunctionTok{sum}\NormalTok{(participants[special\_needs}\SpecialCharTok{==}\StringTok{"Yes"}\NormalTok{], }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(participants),}
+    \AttributeTok{duration =} \FunctionTok{first}\NormalTok{(mobility\_duration),}
+    \AttributeTok{season =} \FunctionTok{first}\NormalTok{(season),}
+    \AttributeTok{.groups =} \StringTok{\textquotesingle{}drop\textquotesingle{}}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{4.2 Simple analysis question, first
+model}\label{simple-analysis-question-first-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Is the project duration affected by the number of participants and average age, proportion of females and proportion of people with fewer opportunities.}
+\CommentTok{\# We include several variables to predict for each project the number of the participants, as this can be a useful measure of popularity}
+\CommentTok{\# As in the EDA we could see that the number of participants is highly right skewed, we can try to do first poisson regression, and test for its requirements.}
+\NormalTok{model\_poisson }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(total\_participants }\SpecialCharTok{\textasciitilde{}}\NormalTok{ avg\_age }\SpecialCharTok{+}\NormalTok{ duration }\SpecialCharTok{+}\NormalTok{ prop\_female }\SpecialCharTok{+}\NormalTok{ prop\_fewer\_opp, }\AttributeTok{data =}\NormalTok{ project\_level, }\AttributeTok{family =} \StringTok{"poisson"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(model\_poisson, }\AttributeTok{coeff =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = total_participants ~ avg_age + duration + prop_female + 
+##     prop_fewer_opp, family = "poisson", data = project_level)
+## 
+## Coefficients:
+##                  Estimate Std. Error  z value Pr(>|z|)    
+## (Intercept)     7.9167053  0.0166718  474.855  < 2e-16 ***
+## avg_age        -0.1134987  0.0007016 -161.767  < 2e-16 ***
+## duration       -0.1792453  0.0012704 -141.097  < 2e-16 ***
+## prop_female     0.0457816  0.0158817    2.883  0.00394 ** 
+## prop_fewer_opp -0.0673802  0.0069574   -9.685  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 229828  on 1390  degrees of freedom
+## Residual deviance: 168314  on 1386  degrees of freedom
+## AIC: 177619
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+
+\subsubsection{4.2.3 Checking for
+dispersion}\label{checking-for-dispersion}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(AER)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: a(z) 'AER' csomag az R 4.4.3 verziójával lett fordítva
+\end{verbatim}
+
+\begin{verbatim}
+## A szükséges csomag betöltődik: car
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: a(z) 'car' csomag az R 4.4.3 verziójával lett fordítva
+\end{verbatim}
+
+\begin{verbatim}
+## A szükséges csomag betöltődik: carData
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: a(z) 'carData' csomag az R 4.4.3 verziójával lett fordítva
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Kapcsolódás csomaghoz: 'car'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     recode
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     some
+\end{verbatim}
+
+\begin{verbatim}
+## A szükséges csomag betöltődik: lmtest
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: a(z) 'lmtest' csomag az R 4.4.3 verziójával lett fordítva
+\end{verbatim}
+
+\begin{verbatim}
+## A szükséges csomag betöltődik: zoo
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: a(z) 'zoo' csomag az R 4.4.3 verziójával lett fordítva
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Kapcsolódás csomaghoz: 'zoo'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     as.Date, as.Date.numeric
+\end{verbatim}
+
+\begin{verbatim}
+## A szükséges csomag betöltődik: sandwich
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: a(z) 'sandwich' csomag az R 4.4.3 verziójával lett fordítva
+\end{verbatim}
+
+\begin{verbatim}
+## A szükséges csomag betöltődik: survival
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Use the fitted Poisson model}
+\NormalTok{AER}\SpecialCharTok{::}\FunctionTok{dispersiontest}\NormalTok{(model\_poisson, }\AttributeTok{alternative =} \StringTok{"greater"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Overdispersion test
+## 
+## data:  model_poisson
+## z = 10.749, p-value < 2.2e-16
+## alternative hypothesis: true dispersion is greater than 1
+## sample estimates:
+## dispersion 
+##   156.1325
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# After testing for dispersion, we can claim that it is not the best idea to use Poisson regression in this case.}
+\CommentTok{\# Our alternative is negative binomial regression}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{4.3 Negative binomial
+regression}\label{negative-binomial-regression}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# As an alternative we can use negative binomial regression}
+\CommentTok{\# First we use every variable which can make sense in the model and check the overall effect of these}
+\FunctionTok{library}\NormalTok{(MASS)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Kapcsolódás csomaghoz: 'MASS'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     select
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_negbin }\OtherTok{\textless{}{-}} \FunctionTok{glm.nb}\NormalTok{(total\_participants }\SpecialCharTok{\textasciitilde{}}\NormalTok{ avg\_age }\SpecialCharTok{+}\NormalTok{ prop\_female }\SpecialCharTok{+}\NormalTok{ prop\_fewer\_opp }\SpecialCharTok{+}\NormalTok{ prop\_special }\SpecialCharTok{+}\NormalTok{ duration, }\AttributeTok{data =}\NormalTok{ project\_level)}
+\FunctionTok{summary}\NormalTok{(model\_negbin)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm.nb(formula = total_participants ~ avg_age + prop_female + 
+##     prop_fewer_opp + prop_special + duration, data = project_level, 
+##     init.theta = 1.729827628, link = log)
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)     8.007491   0.180568  44.346  < 2e-16 ***
+## avg_age        -0.126768   0.007143 -17.746  < 2e-16 ***
+## prop_female     0.150964   0.174647   0.864  0.38737    
+## prop_fewer_opp -0.048745   0.073230  -0.666  0.50564    
+## prop_special   -0.639241   0.228387  -2.799  0.00513 ** 
+## duration       -0.127208   0.009904 -12.844  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Negative Binomial(1.7298) family taken to be 1)
+## 
+##     Null deviance: 2066.8  on 1390  degrees of freedom
+## Residual deviance: 1515.5  on 1385  degrees of freedom
+## AIC: 16956
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  1.7298 
+##           Std. Err.:  0.0612 
+## 
+##  2 x log-likelihood:  -16942.1390
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# A few variables are not significant, we drop them and check the model again below.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{4.4 Negative binomial regression with less
+variable}\label{negative-binomial-regression-with-less-variable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(MASS)}
+\NormalTok{model\_negbin\_2 }\OtherTok{\textless{}{-}} \FunctionTok{glm.nb}\NormalTok{(total\_participants }\SpecialCharTok{\textasciitilde{}}\NormalTok{ avg\_age }\SpecialCharTok{+}\NormalTok{ prop\_special }\SpecialCharTok{+}\NormalTok{ duration,}\AttributeTok{data =}\NormalTok{ project\_level)}
+\FunctionTok{summary}\NormalTok{(model\_negbin\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm.nb(formula = total_participants ~ avg_age + prop_special + 
+##     duration, data = project_level, init.theta = 1.728586254, 
+##     link = log)
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)   8.087864   0.145455  55.604  < 2e-16 ***
+## avg_age      -0.127057   0.007135 -17.807  < 2e-16 ***
+## prop_special -0.672860   0.225420  -2.985  0.00284 ** 
+## duration     -0.127121   0.009896 -12.846  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Negative Binomial(1.7286) family taken to be 1)
+## 
+##     Null deviance: 2065.3  on 1390  degrees of freedom
+## Residual deviance: 1515.7  on 1387  degrees of freedom
+## AIC: 16953
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  1.7286 
+##           Std. Err.:  0.0611 
+## 
+##  2 x log-likelihood:  -16943.3320
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In this model the previously significant predictors remained significant here.}
+\CommentTok{\# Moreover, this model has better AIC, we can continue with interpretation of it by checking the likelihoods.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{4.4.1 Visualize the model}\label{visualize-the-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{topmodels}\SpecialCharTok{::}\FunctionTok{rootogram}\NormalTok{(model\_negbin\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
+## i Please use tidy evaluation idioms with `aes()`.
+## i See also `vignette("ggplot2-in-packages")` for more information.
+## i The deprecated feature was likely used in the topmodels package.
+##   Please report the issue to the authors.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Using the `size` aesthetic in this geom was deprecated in ggplot2 3.4.0.
+## i Please use `linewidth` in the `default_aes` field and elsewhere instead.
+## i The deprecated feature was likely used in the topmodels package.
+##   Please report the issue to the authors.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Using the `size` aesthetic with geom_path was deprecated in ggplot2 3.4.0.
+## i Please use the `linewidth` aesthetic instead.
+## i The deprecated feature was likely used in the topmodels package.
+##   Please report the issue to the authors.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-31-1.pdf}}
+
+\subsubsection{4.4.2. Further visualizations for assumption
+check}\label{further-visualizations-for-assumption-check}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Checking further the predictions and potential factors why we have a not well predictive value as number of participants is growing}
+\CommentTok{\# Maybe this can be used later for testing an alternative way, and dealing with outliers.}
+\FunctionTok{library}\NormalTok{(DHARMa)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: a(z) 'DHARMa' csomag az R 4.4.3 verziójával lett fordítva
+\end{verbatim}
+
+\begin{verbatim}
+## This is DHARMa 0.4.7. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res1 }\OtherTok{\textless{}{-}} \FunctionTok{simulateResiduals}\NormalTok{(}\AttributeTok{fittedModel =}\NormalTok{ model\_negbin\_2, }\AttributeTok{n =} \DecValTok{1000}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(res1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## DHARMa:testOutliers with type = binomial may have inflated Type I error rates for integer-valued distributions. To get a more exact result, it is recommended to re-run testOutliers with type = 'bootstrap'. See ?testOutliers for details
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-32-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{testDispersion}\NormalTok{(res1)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-32-2.pdf}}
+
+\begin{verbatim}
+## 
+##  DHARMa nonparametric dispersion test via sd of residuals fitted vs.
+##  simulated
+## 
+## data:  simulationOutput
+## dispersion = 1.356, p-value = 0.002
+## alternative hypothesis: two.sided
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{testZeroInflation}\NormalTok{(res1)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-32-3.pdf}}
+
+\begin{verbatim}
+## 
+##  DHARMa zero-inflation test via comparison to expected zeros with
+##  simulation under H0 = fitted model
+## 
+## data:  simulationOutput
+## ratioObsSim = 0, p-value = 1
+## alternative hypothesis: two.sided
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{testOutliers}\NormalTok{(res1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## DHARMa:testOutliers with type = binomial may have inflated Type I error rates for integer-valued distributions. To get a more exact result, it is recommended to re-run testOutliers with type = 'bootstrap'. See ?testOutliers for details
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-32-4.pdf}}
+
+\begin{verbatim}
+## 
+##  DHARMa outlier test based on exact binomial test with approximate
+##  expectations
+## 
+## data:  res1
+## outliers at both margin(s) = 13, observations = 1391, p-value =
+## 7.064e-06
+## alternative hypothesis: true probability of success is not equal to 0.001998002
+## 95 percent confidence interval:
+##  0.004985359 0.015928570
+## sample estimates:
+## frequency of outliers (expected: 0.001998001998002 ) 
+##                                          0.009345794
+\end{verbatim}
+
+\subsection{4.5 Interaction of age and duration of the
+program}\label{interaction-of-age-and-duration-of-the-program}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Before commiting to the ultimate models i wanted to check an interaction too}
+\NormalTok{model\_negbin\_3 }\OtherTok{\textless{}{-}} \FunctionTok{glm.nb}\NormalTok{(total\_participants }\SpecialCharTok{\textasciitilde{}}\NormalTok{ avg\_age }\SpecialCharTok{+}\NormalTok{ duration }\SpecialCharTok{+}\NormalTok{ avg\_age }\SpecialCharTok{*}\NormalTok{ duration, }\AttributeTok{data =}\NormalTok{ project\_level)}
+\FunctionTok{summary}\NormalTok{(model\_negbin\_3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm.nb(formula = total_participants ~ avg_age + duration + avg_age * 
+##     duration, data = project_level, init.theta = 1.735668643, 
+##     link = log)
+## 
+## Coefficients:
+##                   Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)       7.521103   0.236582  31.791  < 2e-16 ***
+## avg_age          -0.098403   0.011799  -8.340  < 2e-16 ***
+## duration          0.108577   0.076907   1.412  0.15801    
+## avg_age:duration -0.011992   0.003792  -3.163  0.00156 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Negative Binomial(1.7357) family taken to be 1)
+## 
+##     Null deviance: 2073.7  on 1390  degrees of freedom
+## Residual deviance: 1515.1  on 1387  degrees of freedom
+## AIC: 16947
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  1.7357 
+##           Std. Err.:  0.0614 
+## 
+##  2 x log-likelihood:  -16936.6440
+\end{verbatim}
+
+\subsection{4.6 Model to assess season effect on project
+size}\label{model-to-assess-season-effect-on-project-size}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# This is a simple model and it accounts for different season effect on project size}
+\CommentTok{\# In the first model we didn\textquotesingle{}t include this variable but it might have great potential to explain the project sizes}
+\NormalTok{model\_negbin\_4 }\OtherTok{\textless{}{-}} \FunctionTok{glm.nb}\NormalTok{(total\_participants }\SpecialCharTok{\textasciitilde{}} \FunctionTok{factor}\NormalTok{(season),}\AttributeTok{data =}\NormalTok{ project\_level)}
+\FunctionTok{summary}\NormalTok{(model\_negbin\_4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm.nb(formula = total_participants ~ factor(season), data = project_level, 
+##     init.theta = 1.308494499, link = log)
+## 
+## Coefficients:
+##                      Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)           5.31913    0.03850 138.173  < 2e-16 ***
+## factor(season)spring -0.16488    0.05845  -2.821  0.00479 ** 
+## factor(season)summer -0.08133    0.07103  -1.145  0.25215    
+## factor(season)winter  0.07772    0.06680   1.163  0.24463    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Negative Binomial(1.3085) family taken to be 1)
+## 
+##     Null deviance: 1568.4  on 1390  degrees of freedom
+## Residual deviance: 1554.3  on 1387  degrees of freedom
+## AIC: 17414
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  1.3085 
+##           Std. Err.:  0.0451 
+## 
+##  2 x log-likelihood:  -17403.9240
+\end{verbatim}
+
+\subsubsection{4.6.1 Visualize the model
+fit}\label{visualize-the-model-fit}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{topmodels}\SpecialCharTok{::}\FunctionTok{rootogram}\NormalTok{(model\_negbin\_4)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-35-1.pdf}}
+
+\subsubsection{4.6.2. Assumption
+visualization}\label{assumption-visualization}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(DHARMa)}
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{simulateResiduals}\NormalTok{(}\AttributeTok{fittedModel =}\NormalTok{ model\_negbin\_4, }\AttributeTok{n =} \DecValTok{1000}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## DHARMa:testOutliers with type = binomial may have inflated Type I error rates for integer-valued distributions. To get a more exact result, it is recommended to re-run testOutliers with type = 'bootstrap'. See ?testOutliers for details
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-36-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{testDispersion}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-36-2.pdf}}
+
+\begin{verbatim}
+## 
+##  DHARMa nonparametric dispersion test via sd of residuals fitted vs.
+##  simulated
+## 
+## data:  simulationOutput
+## dispersion = 1.4984, p-value < 2.2e-16
+## alternative hypothesis: two.sided
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{testZeroInflation}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-36-3.pdf}}
+
+\begin{verbatim}
+## 
+##  DHARMa zero-inflation test via comparison to expected zeros with
+##  simulation under H0 = fitted model
+## 
+## data:  simulationOutput
+## ratioObsSim = 0, p-value = 0.236
+## alternative hypothesis: two.sided
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{testOutliers}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## DHARMa:testOutliers with type = binomial may have inflated Type I error rates for integer-valued distributions. To get a more exact result, it is recommended to re-run testOutliers with type = 'bootstrap'. See ?testOutliers for details
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-36-4.pdf}}
+
+\begin{verbatim}
+## 
+##  DHARMa outlier test based on exact binomial test with approximate
+##  expectations
+## 
+## data:  res
+## outliers at both margin(s) = 11, observations = 1391, p-value =
+## 0.0001503
+## alternative hypothesis: true probability of success is not equal to 0.001998002
+## 95 percent confidence interval:
+##  0.003954053 0.014105414
+## sample estimates:
+## frequency of outliers (expected: 0.001998001998002 ) 
+##                                           0.00790798
+\end{verbatim}
+
+\subsection{5. SELECTED MODEL 1: Log-transformed outcome within a linear
+model
+(Reference)}\label{selected-model-1-log-transformed-outcome-within-a-linear-model-reference}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# To adjust higher outlier values we can log transform the outcome variable and use it in a simpler linear model.}
+\NormalTok{model\_log\_ols }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(total\_participants) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ avg\_age }\SpecialCharTok{+}\NormalTok{ prop\_special }\SpecialCharTok{+}\NormalTok{ duration, }\AttributeTok{data =}\NormalTok{ project\_level)}
+\FunctionTok{summary}\NormalTok{(model\_log\_ols)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = log(total_participants) ~ avg_age + prop_special + 
+##     duration, data = project_level)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.7290 -0.5335  0.0149  0.5354  2.6903 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   7.488146   0.154676  48.412  < 2e-16 ***
+## avg_age      -0.112488   0.007583 -14.834  < 2e-16 ***
+## prop_special -0.669672   0.238676  -2.806  0.00509 ** 
+## duration     -0.133073   0.010478 -12.701  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.8131 on 1387 degrees of freedom
+## Multiple R-squared:  0.2409, Adjusted R-squared:  0.2393 
+## F-statistic: 146.7 on 3 and 1387 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\subsubsection{5.1 Checking model parameters using
+DHARMA}\label{checking-model-parameters-using-dharma}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(DHARMa)}
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{simulateResiduals}\NormalTok{(}\AttributeTok{fittedModel =}\NormalTok{ model\_log\_ols, }\AttributeTok{n =} \DecValTok{1000}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-38-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{testDispersion}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-38-2.pdf}}
+
+\begin{verbatim}
+## 
+##  DHARMa nonparametric dispersion test via sd of residuals fitted vs.
+##  simulated
+## 
+## data:  simulationOutput
+## dispersion = 0.99888, p-value = 0.962
+## alternative hypothesis: two.sided
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{testZeroInflation}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-38-3.pdf}}
+
+\begin{verbatim}
+## 
+##  DHARMa zero-inflation test via comparison to expected zeros with
+##  simulation under H0 = fitted model
+## 
+## data:  simulationOutput
+## ratioObsSim = NaN, p-value = 1
+## alternative hypothesis: two.sided
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{testOutliers}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-38-4.pdf}}
+
+\begin{verbatim}
+## 
+##  DHARMa outlier test based on exact binomial test with approximate
+##  expectations
+## 
+## data:  res
+## outliers at both margin(s) = 3, observations = 1391, p-value = 0.7601
+## alternative hypothesis: true probability of success is not equal to 0.001998002
+## 95 percent confidence interval:
+##  0.0004449889 0.0062898018
+## sample estimates:
+## frequency of outliers (expected: 0.001998001998002 ) 
+##                                          0.002156722
+\end{verbatim}
+
+\subsubsection{5.2 Checking regular plots for the
+model}\label{checking-regular-plots-for-the-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(model\_log\_ols)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-39-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-39-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-39-3.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-39-4.pdf}}
+
+\subsubsection{5.3 Checking model fit}\label{checking-model-fit}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# visualize the model fit}
+\NormalTok{topmodels}\SpecialCharTok{::}\FunctionTok{rootogram}\NormalTok{(model\_log\_ols)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-40-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# This model looks good, or at least way better than any before in this analysis.}
+\CommentTok{\# By looking at it with the plot results together i still want to adjust the outliers (very high and very low levels of the participant number)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{5.4 Interpreting the
+visuals}\label{interpreting-the-visuals}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We can see that the models above are failing to predict values towards the lower and higher end of the scale.}
+\CommentTok{\# In this case I think is reasonable to check the majority of the projects and limit our data range, lets try this below}
+\CommentTok{\# In order to do this we should be able to say something about by how much we limit our results by eliminating outlier cases or setting a certain limit}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{6 OUTLIER Filtering for next
+models}\label{outlier-filtering-for-next-models}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lower\_bound }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(project\_level}\SpecialCharTok{$}\NormalTok{total\_participants, }\FloatTok{0.025}\NormalTok{)}
+\NormalTok{upper\_bound }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(project\_level}\SpecialCharTok{$}\NormalTok{total\_participants, }\FloatTok{0.975}\NormalTok{)}
+
+\CommentTok{\# 2. Create a new filtered dataset}
+\NormalTok{project\_level\_filtered }\OtherTok{\textless{}{-}}\NormalTok{ project\_level }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(total\_participants }\SpecialCharTok{\textgreater{}=}\NormalTok{ lower\_bound }\SpecialCharTok{\&}\NormalTok{ total\_participants }\SpecialCharTok{\textless{}=}\NormalTok{ upper\_bound)}
+
+\CommentTok{\# Check how many rows were removed}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Original rows:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(project\_level)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Original rows: 1391"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Filtered rows:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(project\_level\_filtered)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Filtered rows: 1323"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# This way the project numbers from 1391 decreases to 1323}
+\CommentTok{\# The difference is 68, which is 68/1391 x 100 = 4,88}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{6.1 Compare the filtered data with the original one (what
+we used so
+far)}\label{compare-the-filtered-data-with-the-original-one-what-we-used-so-far}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Lets check the influenced number of participants, by checking participants numbers}
+
+\NormalTok{tot }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(project\_level}\SpecialCharTok{$}\NormalTok{total\_participants)}
+\CommentTok{\# This is 272 509 participants}
+
+\NormalTok{new }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(project\_level\_filtered}\SpecialCharTok{$}\NormalTok{total\_participants)}
+\CommentTok{\# This is 234 407 participants}
+
+\NormalTok{dif }\OtherTok{\textless{}{-}} \FunctionTok{abs}\NormalTok{(tot }\SpecialCharTok{{-}}\NormalTok{ new)}
+
+\NormalTok{los }\OtherTok{\textless{}{-}}\NormalTok{ (dif}\SpecialCharTok{/}\NormalTok{tot) }\SpecialCharTok{*} \DecValTok{100}
+\CommentTok{\# this way we lost about 14 \% of the participants who were in the 5\% of the projects}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{7. Model Negative Binomial
+Regression}\label{model-negative-binomial-regression}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We create this model by using the previously significant variables}
+\NormalTok{model\_filtered }\OtherTok{\textless{}{-}} \FunctionTok{glm.nb}\NormalTok{(total\_participants }\SpecialCharTok{\textasciitilde{}}\NormalTok{ avg\_age }\SpecialCharTok{+}\NormalTok{ prop\_special }\SpecialCharTok{+}\NormalTok{ duration, }\AttributeTok{data =}\NormalTok{ project\_level\_filtered)}
+\FunctionTok{summary}\NormalTok{(model\_filtered)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm.nb(formula = total_participants ~ avg_age + prop_special + 
+##     duration, data = project_level_filtered, init.theta = 2.063906046, 
+##     link = log)
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)   7.533895   0.137797  54.674   <2e-16 ***
+## avg_age      -0.105051   0.006733 -15.603   <2e-16 ***
+## prop_special -0.516807   0.215667  -2.396   0.0166 *  
+## duration     -0.109539   0.009228 -11.870   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Negative Binomial(2.0639) family taken to be 1)
+## 
+##     Null deviance: 1847.4  on 1322  degrees of freedom
+## Residual deviance: 1422.3  on 1319  degrees of freedom
+## AIC: 15830
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  2.0639 
+##           Std. Err.:  0.0759 
+## 
+##  2 x log-likelihood:  -15820.1840
+\end{verbatim}
+
+\subsubsection{7.1 Plotting the model}\label{plotting-the-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(model\_filtered)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-45-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-45-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-45-3.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-45-4.pdf}}
+
+\subsubsection{7.2 Model fit plot}\label{model-fit-plot}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{topmodels}\SpecialCharTok{::}\FunctionTok{rootogram}\NormalTok{(model\_filtered)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-46-1.pdf}}
+
+\subsubsection{7.3 Interpretation}\label{interpretation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# This still is not the best fit, lets check the log transformation again}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{8. SELECTED Simple linear model with log
+transformation}\label{selected-simple-linear-model-with-log-transformation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{log\_2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(total\_participants) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ avg\_age }\SpecialCharTok{+}\NormalTok{ prop\_special }\SpecialCharTok{+}\NormalTok{ duration, }\AttributeTok{data =}\NormalTok{ project\_level\_filtered)}
+\FunctionTok{summary}\NormalTok{(log\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = log(total_participants) ~ avg_age + prop_special + 
+##     duration, data = project_level_filtered)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.09901 -0.52142  0.00664  0.51025  2.52271 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   7.190737   0.144341  49.818  < 2e-16 ***
+## avg_age      -0.099887   0.007048 -14.172  < 2e-16 ***
+## prop_special -0.603919   0.225098  -2.683  0.00739 ** 
+## duration     -0.118975   0.009624 -12.363  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.7339 on 1319 degrees of freedom
+## Multiple R-squared:  0.2333, Adjusted R-squared:  0.2316 
+## F-statistic: 133.8 on 3 and 1319 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\subsubsection{8.1 Plotting the model}\label{plotting-the-model-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(log\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-49-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-49-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-49-3.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-49-4.pdf}}
+
+\subsubsection{8.2 Model fit plot}\label{model-fit-plot-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{topmodels}\SpecialCharTok{::}\FunctionTok{rootogram}\NormalTok{(log\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-50-1.pdf}}
+
+\subsection{9. Log model with more relevant
+predictors}\label{log-model-with-more-relevant-predictors}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In some readers may appear the question that we should go back and test the other variables as well again, with the filtered dataset}
+\CommentTok{\# We satisfy you in this chunk.}
+\CommentTok{\# Checking the variables we discarded in the early phase}
+\NormalTok{log\_3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(total\_participants) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ avg\_age }\SpecialCharTok{+}\NormalTok{ prop\_special }\SpecialCharTok{+}\NormalTok{ prop\_female }\SpecialCharTok{+}\NormalTok{ prop\_fewer\_opp }\SpecialCharTok{+}\NormalTok{ duration, }\AttributeTok{data =}\NormalTok{ project\_level\_filtered)}
+\FunctionTok{summary}\NormalTok{(log\_3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = log(total_participants) ~ avg_age + prop_special + 
+##     prop_female + prop_fewer_opp + duration, data = project_level_filtered)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.14779 -0.51596  0.01087  0.50471  2.55080 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     7.193214   0.181373  39.660  < 2e-16 ***
+## avg_age        -0.099849   0.007065 -14.132  < 2e-16 ***
+## prop_special   -0.648213   0.227818  -2.845  0.00451 ** 
+## prop_female    -0.034446   0.175853  -0.196  0.84474    
+## prop_fewer_opp  0.087989   0.071568   1.229  0.21912    
+## duration       -0.119552   0.009636 -12.407  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.734 on 1317 degrees of freedom
+## Multiple R-squared:  0.2343, Adjusted R-squared:  0.2314 
+## F-statistic: 80.58 on 5 and 1317 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Their effect is still not significant, thus we stick to the model simpler called log\_2}
+\end{Highlighting}
+\end{Shaded}
+
+\section{5. Final report of the
+results}\label{final-report-of-the-results}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The initial count model (Negative Binomial GLM) suffered from severe assumption violations due to a high density of small counts and influential outliers (projects with extremely high participation), as shown by the DHARMa diagnostics.}
+\CommentTok{\# After running an ols model with log{-}transformed outcome we got better results. I select this model as a reference and compare the same structure after dealing with outlier exclusion}
+\CommentTok{\# How this model looks like:}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{5.1 Reference model}\label{reference-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# To easier interpretation and comprarison i paste here the model output again, remember this model uses "the full" data}
+\FunctionTok{summary}\NormalTok{(model\_log\_ols)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = log(total_participants) ~ avg_age + prop_special + 
+##     duration, data = project_level)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.7290 -0.5335  0.0149  0.5354  2.6903 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   7.488146   0.154676  48.412  < 2e-16 ***
+## avg_age      -0.112488   0.007583 -14.834  < 2e-16 ***
+## prop_special -0.669672   0.238676  -2.806  0.00509 ** 
+## duration     -0.133073   0.010478 -12.701  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.8131 on 1387 degrees of freedom
+## Multiple R-squared:  0.2409, Adjusted R-squared:  0.2393 
+## F-statistic: 146.7 on 3 and 1387 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confint}\NormalTok{(model\_log\_ols, }\AttributeTok{level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   2.5 %      97.5 %
+## (Intercept)   7.1847214  7.79157111
+## avg_age      -0.1273635 -0.09761233
+## prop_special -1.1378768 -0.20146700
+## duration     -0.1536262 -0.11251919
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(model\_log\_ols)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-53-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-53-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-53-3.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-53-4.pdf}}
+
+\subsection{5.2 Alternative model}\label{alternative-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In the alternative model i investigate the effect of outlier handling }
+\FunctionTok{summary}\NormalTok{(log\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = log(total_participants) ~ avg_age + prop_special + 
+##     duration, data = project_level_filtered)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.09901 -0.52142  0.00664  0.51025  2.52271 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   7.190737   0.144341  49.818  < 2e-16 ***
+## avg_age      -0.099887   0.007048 -14.172  < 2e-16 ***
+## prop_special -0.603919   0.225098  -2.683  0.00739 ** 
+## duration     -0.118975   0.009624 -12.363  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.7339 on 1319 degrees of freedom
+## Multiple R-squared:  0.2333, Adjusted R-squared:  0.2316 
+## F-statistic: 133.8 on 3 and 1319 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confint}\NormalTok{(log\_2, }\AttributeTok{level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   2.5 %      97.5 %
+## (Intercept)   6.9075739  7.47389942
+## avg_age      -0.1137138 -0.08606006
+## prop_special -1.0455077 -0.16233041
+## duration     -0.1378539 -0.10009519
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(log\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-54-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-54-2.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-54-3.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{data_analysis_files/figure-latex/unnamed-chunk-54-4.pdf}}
+
+\subsection{5.3 General comparison of the
+models}\label{general-comparison-of-the-models}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Despite the fit of the model\_log\_ols model, we were thinking a lot about the potential cause of the extreme outliers and decided to filter the projects excluding the bottom 2,5\% and top 2.5\% of the data.}
+\CommentTok{\# This way we lost about 14 \% of the total amount of participants (and 5\% of the projects, as theese participants were in only 5 \% of the total project amount)}
+\CommentTok{\# Usage of exclusion can be reasoned by the model fit analysis, as visualization showed outliers in the 2 ends of the scales even after using log transformation which is a dedicated method to deal with right skewed data.}
+
+
+\CommentTok{\# In the second model we investigated the effect of the average age, the proportion of people with special needs and the project duration, same as in the first model.}
+\CommentTok{\# Compared to the first log model, we can see that the residual range and Residual SE decreased (what was 0.8131 on 1387 df in the second model became 0.7339, on 1319 df which means \textasciitilde{} 10\% decrease, thus some of the extreme values inflating (overestimating) the results in the first model were adressed). }
+
+\CommentTok{\# Comparing the first and second models with the Q{-}Q Plot shows a more adjusted fit of the second model, even though in the edges of residuals the presence of outliers is persistent.}
+
+\CommentTok{\# The effect of our variables decreased to some extent (ex. coeff of avg\_age from {-}0.112 changed to {-}0.099, the proportion of people with special needs from {-}0.669 decreased to {-}0.603, and the effect of duration of the project decreased from {-}0.133 to {-}0.118), while maintaining almost the same amount of explained variance (adjusted R2 in the first model = 0.239, adjusted R2 in the second model = 0.231)}
+
+\CommentTok{\# Due to the log transformation of the outcome variable, we can estimate the effect of predictors as follows:}
+\CommentTok{\# In Model 1, the impact of average age showed that one unit change in the age variable decreases median participants sizes by 11.2 \% (95\% CI [{-}0.127,{-}0.097])}
+\CommentTok{\# Similarly, in the model 2. this decreasement effect kept it\textquotesingle{}s direction, and slightly decreased its value to 9.9 \% (95\% CI [{-}0.113, {-}0.086])}
+
+\CommentTok{\# To our question: What influences the popularity of the projects we can say, that for 95\% of the cases, excluding the smallest and biggest projects, which are least probably a possibility for most of the Erasmus program participants we could find statistically significant effect of the average age, proportion of special needs people of a project and project duration. Older age, higher proportion of special need students in the sample and project duration significantly decreased the predicted median values in project participant numbers.}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

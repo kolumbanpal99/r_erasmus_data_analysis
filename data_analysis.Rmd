@@ -2,7 +2,9 @@
 title: "data_analysis"
 author: "Pál Kolumbán"
 date: "2025-11-10"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # 1. Loading the data and relevant packages
