@@ -370,3 +370,25 @@ utestZeroInflation(res)
 testOutliers(res)
 ```
 
+# Try to log transform the values and check it with ols regression
+
+```{r}
+model_log_ols <- lm(log(total_participants) ~ avg_age + prop_special + duration, 
+                    data = project_level)
+
+summary(model_log_ols)
+```
+
+```{r}
+library(DHARMa)
+res <- simulateResiduals(fittedModel = model_log_ols, n = 1000)
+plot(res)
+
+testDispersion(res)
+testZeroInflation(res)
+testOutliers(res)
+```
+
+
+
+
