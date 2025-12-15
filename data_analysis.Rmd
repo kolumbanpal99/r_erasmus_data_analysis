@@ -551,7 +551,7 @@ plot(model_log_ols)
 # In the alternative model i investigate the effect of outlier handling 
 summary(log_2)
 confint(log_2, level = 0.95)
-plot(model_log_ols)
+plot(model_log_2)
 ```
 
 ## 5.3 General comparison of the models
